@@ -54,7 +54,7 @@ include_once "masonFunctions.php";
 		//Print out List of current images in gallery.
 		//Pass those images to a foreach loop
 		//Inside the For each loop make this data structure DIV(class="alblum_names image" ) ->image(src = "thumbnail" ) (alt = "image name" )
-		while (next_image($all = TRUE)):
+			while (next_image($all = TRUE)):
 			$image_item = "";	
 			$maxSQ=30000;
 			$h = getFullHeight( );
@@ -111,26 +111,28 @@ include_once "masonFunctions.php";
 		endwhile; //end of next_image loop
 		//end of gallery mechanic and logic
 		$gallery_item .= "</div><!-- End of Gallery -->";
-		echo $gallery_item;  
+		//echo $gallery_item;  
 	?>
 <div id="filter-bar">
 <div class="row">
 <strong>Gallery Filter</strong>
 <ul id="filters" class="button-group radius">
-<li><a href="#" class='button radius' data-filter="*">All</a></li>
+<li><a href="#" class='button radius small' data-filter="*">All</a></li>
 <?php $filters = $gallery->get_filters();
 $html ="";
 foreach ($filters as $key => $value) {
-	$html .= "<li><a class='button radius' data-filter='.";
+	$html .= "<li><a class='button radius small' data-filter='.";
 	$html .= str_replace(" ", "-", $value);
 	$html .= "' href='#'>";
 	$html .= $value;
 	$html .= "</a></li>";
 }
 echo $html;
+
  ?>
 </ul>
 </div>
+<? echo $gallery_item; ?>
 </div>
 <? ?>
 		

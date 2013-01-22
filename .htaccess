@@ -8,7 +8,7 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
   
-  RewriteBase /fragments
+  RewriteBase /
   
 #	Redirection for site updates--remove the comment crosshatches from the following rules
 #	"closed.html" in the plugins/site_upgrade folder is the target for the rewrites. You can change 
