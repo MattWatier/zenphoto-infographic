@@ -63,8 +63,9 @@ class MyGallery{
 	public	function add_to_filter($tags) {
 		
 		foreach ($tags as $key => $value) {
-			$pos = strpos( $value , "color_" );
-			if( $pos != FALSE ){
+			$pos = strpos( $value , "_color-" );
+			
+			if( $pos === 0 ){
 				if( $this->color[$value] == NULL) {	
 					 $this->color[$value] = array();
 					 $this->color[$value]["type"] = $value;

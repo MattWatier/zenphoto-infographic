@@ -28,11 +28,11 @@ include_once "masonFunctions.php";
 
 
 <div id="main" class="row" style="padding-top:50px;">
-	<div id="breadcrumb" class="column six">
-		<h1><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
+	<div id="breadcrumb" class="column five">
+		<h1 style="font-family: 'Sansationlight', "trebuchet MS", Arial, sans-serif;  font-weight: 900;  letter-spacing: 1px;  font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
 		<p><?php printAlbumDesc(true); ?></p>
 	</div>
-	<div id="dataholder" class="column ten">
+	<div id="dataholder" class="column eleven">
 		<h4>Gallery Filter</h4>
 
 	</div>
@@ -149,12 +149,12 @@ include_once "masonFunctions.php";
       }
 
 
-  var  barChart ={ w: 788, h :355 ,m:20  };
+  var  barChart ={ w: 860, h :355 ,m:20  };
   barChart.height =barChart.h - (2 * barChart.m);
   barChart.width = barChart.w - (2 * barChart.m);
   var color = d3.scale.category20().domain( d3.range(dataSet.length) ); 
   var x = d3.scale.ordinal().domain( d3.range(dataSet.length) ).rangeRoundBands([0,barChart.width],.05); 
-  var y = d3.scale.linear().domain( [0,d3.max(dataSet, function(d) { return d.count}) ]).range([0, barChart.height],0);
+  var y = d3.scale.linear().domain( [0,d3.max(dataSet, function(d) { return d.count}) ]).range([0, (barChart.height- (barChart.m * 2)) ],0);
 
 
 
@@ -164,7 +164,7 @@ var bchart_svg = d3.select(selectString).append("svg")
     .attr("width", barChart.w)
     .attr("height", barChart.h)
     .append("g")
-    .attr("transform","translate(" + barChart.m + "," + barChart.m + ")");
+    .attr("transform","translate(" + barChart.m + "," + barChart.m * 2 + ")");
 
 
 var bchart = bchart_svg.selectAll(".bar")
@@ -184,20 +184,21 @@ var bchart = bchart_svg.selectAll(".bar")
     .attr("y", function(d){return   barChart.height  - y( d.count ); });
   bchart.append("text")
     .attr("class", "count")
-    .attr("x", function(d,i){ return x( i ) + 10 })
+    .attr("x", function(d,i){ return x( i ) + 4 })
     .attr("width", x.rangeBand())
     .attr("fill", "#ffffff")
-    .attr("y", function(d){return   barChart.height  - y( d.count ) + 55; })
-    .style("font-size","40px")
+    .attr("y", function(d){return   barChart.height  - y( d.count ) + 24; })
+    .style("font-size","20px")
     .style("font-wieght", 900)
   .text(function(d){ return d.count; });
   bchart.append("text")
     .attr("class", "label")
-    .attr("x", function(d,i){ return x( i ) + 10 })
+    .attr("x", function(d,i){ return x( i ) + 4 })
     .attr("width", x.rangeBand())
-    .attr("fill", "#ffffff")
-    .attr("y", function(d){return   barChart.height  - y( d.count ) + 20; })
-    .style("fontsize","10px")
+    .attr("fill", "#888888")
+    .attr("y", function(d){return   barChart.height  - y( d.count ) - 4; })
+    .style("fontsize","8px")
+    .attr("transform",function(d,i){return "rotate(-60 "+( x( i ) + 4)+" "+( barChart.height  - y( d.count ) - 4)+")" ;})
     .text(function(d){ return d.type; });
 
 

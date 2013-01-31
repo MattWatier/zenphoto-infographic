@@ -15,7 +15,9 @@
 		<script type=text/javascript>
 	
 	$(document).ready(function() {
-	var $container = $('#album');
+	var $container = $('#album'),
+		 $win = $(window),
+   		 $imgs = $("img.lazy");
  	$container.isotope({
    		// options
   		itemSelector : '.images',
@@ -23,7 +25,11 @@
   		masonry : {
   		    columnWidth: 156,
   		    gutterWidth:12
-  		  }
+  		},
+  		 onLayout: function() {
+        $win.trigger("scroll");
+    	}
+  		  
 		});
 	$('#filters a').click(function(){
 	  var selector = $(this).attr('data-filter');
@@ -38,9 +44,14 @@
 	  return false;
 	});
 	
+
 	
-	$("img.lazy").lazyload({ 
-    	effect : "fadeIn"
+	
+    
+    
+	 $imgs.lazyload({ 
+    	effect : "fadeIn",
+    	failure_limit: Math.max($imgs.length - 1, 0)
 	 	});
 	$("a.fancy").fancybox();
 });
