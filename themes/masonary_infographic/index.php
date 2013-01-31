@@ -19,28 +19,29 @@ if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'l
 
 <?php include('_siteHeaderNav.php' ); ?>
 
+  <div id="main"  class='row evencolumns' style="padding-top:50px;">
+  	<div id="introduction" class="six column" >
+  		<h1 style="">Welcome to the Fragments of Me.</h1>
+  		<div id="bar_holder"></div> 
+      <p> <?php printGalleryDesc(); ?> </p>
+      <hr>
+      <h4>Shards of my work scatter across time</h4>
+      <p><em>It is interesteding to see my work plotted into the months they were created over time. This isn't all my work but the work that is represented this repository.</em></p>
 
-<?php include('_canvas.php' ); ?>
-<div class='row'>
-	<div id="main" class="">
-		<h1>Welcome to the Fragments of Me.</h1>
-		<p>
-		<?php printGalleryDesc(); ?>
-		</p>
 
+    </div><!-- End of Introduction -->
 
 
 		<?php 
-			$gallery_item = '<div id="galleries" class="row">';
+			$gallery_item = '<div id="galleries" class="ten column" style=" border-left: 1px solid #cccccc; ">';
 			while (next_album()):
-				$gallery_item .= '<div class="six columns gallery '.getAnnotatedAlbumTitle().'" style="padding:0 25px">';
-				$gallery_item .= '<h2 style="list-style: none;" ><a href="'.getAlbumLinkURL().'" title="View album '.getAnnotatedAlbumTitle().'">'.getAlbumTitle().'</a></h2>';
-				$gallery_item .= '<div style="list-style: none;margin-left: -25px" id="dataholder_'.getAnnotatedAlbumTitle().'">&nbsp;</div>';
-				$images = "<ul style='list-style: none;'class='thumbnails'>";
-				for ($i=1; $i<=10; $i++) {
+				$gallery_item .= '<div class="eight column gallery '.getAnnotatedAlbumTitle().'" >';
+				$gallery_item .= '<h2><a href="'.getAlbumLinkURL().'" title="View album '.getAnnotatedAlbumTitle().'">'.getAlbumTitle().'&raquo;</a></h2>';
+				$gallery_item .= '<div class="d3_chart" id="dataholder_'.getAnnotatedAlbumTitle().'">&nbsp;</div>';
+				$images = "<ul class='thumbnails column four'>";
+				for ($i=1; $i<=8; $i++) {
 					$randomImage = getRandomImagesAlbum( $rootAlbum = getAnnotatedAlbumTitle(),$daily = false);
-					
-					$images .= "<li class='' style='float:left; margin:2px;'><a class='fancy' style='display: inline-block;border: 1px solid #ccc;margin:5px auto;padding:2px;' href='".htmlspecialchars($randomImage->getCustomImage(800))."'>";
+					$images .= "<li class='thumbnail'><a class='fancy' href='".htmlspecialchars($randomImage->getCustomImage(800))."'>";
 					if ($randomImage->getWidth() >= $randomImage->getHeight()) {
 					$ih = 30;
 					$iw = NULL;
@@ -48,25 +49,21 @@ if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'l
 					$ih = NULL;
 					$iw = 30;
 					}
-					$images .= "<img style='border: 0px none #fff;vertical-align: middle;' src='".html_encode($randomImage->getCustomImage(NULL, $iw, $ih, 30, 30, NULL, NULL, true))."'/>";
+					$images .= "<img Src='".html_encode($randomImage->getCustomImage(NULL, $iw, $ih, 30, 30, NULL, NULL, true))."'/>";
 					$images .= "</a></li>";
 					//if($i==3){$images .= "</ul><ul style='list-style: none;'class='thumbnails row'>";}
 				}
 				$images .= "</ul>";
 				$gallery_item .= $images;
-				$gallery_item .= '<p style="display:block; clear:both;margin-bottom: 0;">'.getAlbumCustomData().'<a style="padding: 0 4em;" href="'.getAlbumLinkURL().'">&nbsp; Explore my work on '.getAnnotatedAlbumTitle().'</a></p>';	
-				
-				$gallery_item .= '<br/><br/></div>';
+				$gallery_item .= '<p class="column thirteen">'.getAlbumCustomData().'<a href="'.getAlbumLinkURL().'">&nbsp; Explore my work on '.getAnnotatedAlbumTitle().'</a></p>';	
+				$gallery_item .= '</div>';
 			endwhile;
-			$gallery_item .= '<hr style="clear:both;" /></div>';
+			$gallery_item .= '<div style="clear:both;" /></div></div></div>';
 			echo $gallery_item;
 			?>
-<div class="" id="dataholder" style="position:relative" >
-<div class="intro six" style="position:absolute">
-<h4>Shards of my work scatter across time</h4>
-</div>
-<p style="position:absolute; bottom: -2px;left: 50px;line-height: 1.25;color: grey;" class="eight"><em>It is interesteding to seem my work plotted into the months they were created over time. This isn't all my work but the work that is represented this repository.</em></p>
-</div>
+<div class="row" id="dataholder" style="position: relative;" >
+
+   </div>
 <?php 
 
 // Request to Mysql;
@@ -77,7 +74,7 @@ $D3_Master_Type_Array = array();
 $D3_Grouped_Array = array();
 $D3_Grouped_TypeArray =array();
 $D3_Master_Array2 = array();
-
+$D3_BarChart_Array = array();
 
 foreach ($collection as $key => $value) {
     $array = array();
@@ -143,12 +140,14 @@ foreach ($collection as $key => $value) {
       $D3_Master_Array[$datestamp]['subtype'][$type[1]]["date"]= $date;
 
    }else{
-     ++  $D3_Master_Array[$datestamp]['subtype'][$type[1]]["r"];
+     ++$D3_Master_Array[$datestamp]['subtype'][$type[1]]["r"];
    }
 
   if( $D3_Grouped_Array[ $type[0] ] == NULL ){
         $D3_Grouped_Array[ $type[0] ] = array();
+
     }
+
   if( $D3_Grouped_Array[ $type[0] ][ $type[1] ] == NULL ){
        $D3_Grouped_Array[ $type[0] ][ $type[1] ] = array();
        $D3_Grouped_Array[ $type[0] ][ $type[1] ][count] = 1;
@@ -158,7 +157,13 @@ foreach ($collection as $key => $value) {
     }
       $D3_Grouped_Array[ $type[0] ][ $type[1] ][count] =  $D3_Grouped_Array[ $type[0] ][ $type[1] ]['count']  + 1;
   
-
+  if($D3_BarChart_Array[ $type[0] ] == NULL){   
+      $D3_BarChart_Array[$type[0]]= array();
+      $D3_BarChart_Array[$type[0]]["type"] = $type[0];
+      $D3_BarChart_Array[$type[0]]["count"] = 1;
+  }else{
+      ++ $D3_BarChart_Array[$type[0]]["count"];
+  }
 
 	# code...
 }
@@ -201,32 +206,97 @@ function flattenArray($array){
 <? 
 
 foreach( array_unique($D3_Master_Type_Array) as $value ){
-   $flat_array= array();
-    foreach ($D3_Grouped_Array[$value] as $A_value) {
+  $flat_array= array();
+  foreach ($D3_Grouped_Array[$value] as $A_value) {
       array_push($flat_array, $A_value);
-     } ;
+  }
   echo 'var '.$value.'_d3_data = '.json_encode( $flat_array ).';';
   echo 'drawDonutChart("'.$value.'",'.$value.'_d3_data,"#dataholder_'.$value.'");';
-
-
 }
 $D3_Master_Type_Array = flattenArray( array_unique($D3_Master_Type_Array) );
 $D3_Grouped_Array = flattenArray( $D3_Grouped_Array  );
 $D3_Master_Array = flattenArray( $D3_Master_Array );
 $D3_Master_Array2 = flattenArray( $D3_Master_Array2 );
 $D3_Grouped_TypeArray = simpleArray($D3_Grouped_TypeArray);
-
-
-
+$D3_BarChart_Array = flattenArray($D3_BarChart_Array);
 ?>
 
+function drawBarChart(chartID, dataSet, selectString){
+      // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
+      // dataSet => Input Data for the chart, itself.
+      // selectString => String that allows you to pass in
+      // a D3.selectAll() string.
 
+      function domainArray(a , type) {
+        var data =[];// ["Photos","Canvas","Page","Screen"];
+        for (var i = 0; i < a.length; i++) {
+          data.push( a[i][type] );
+         
+        }
+        console.log(data);
+        return unique(data);
+      }
+
+
+  var  barChart ={ w: 442, h :300 ,m:20  };
+  barChart.height =barChart.h - (2 * barChart.m);
+  barChart.width = barChart.w - (2 * barChart.m);
+  var color = d3.scale.category20().domain( d3.range(dataSet.length) ); 
+  var x = d3.scale.ordinal().domain( d3.range(dataSet.length) ).rangeRoundBands([0,barChart.width],.05); 
+  var y = d3.scale.linear().domain( [0,d3.max(dataSet, function(d) { return d.count}) ]).range([0, barChart.height],0);
+
+
+
+var bchart_svg = d3.select(selectString).append("svg")
+   
+    .attr("class", function(){return "bar"+chartID;})
+    .attr("width", barChart.w)
+    .attr("height", barChart.h)
+    .append("g")
+    .attr("transform","translate(" + barChart.m + "," + barChart.m + ")");
+
+
+var bchart = bchart_svg.selectAll(".bar")
+    .data(dataSet)
+    .enter().append("g")
+    .attr("class", "bar");
+
+  bchart.append("svg:a")
+    .attr("xlink:href", function(d){return d.type;}) 
+    .append("rect")
+    .attr("class", function(d){return d.type})
+    .attr("height", function(d){return y( d.count ) })
+    .attr("width", x.rangeBand())
+    .attr("x", function(d,i){ return x( i ) })
+    .attr("fill", function(d,i){return color( i )})
+    .attr("y", function(d){return   barChart.height  - y( d.count ); });
+  bchart.append("text")
+    .attr("class", "count")
+    .attr("x", function(d,i){ return x( i ) + 10 })
+    .attr("width", x.rangeBand())
+    .attr("fill", "#ffffff")
+    .attr("y", function(d){return   barChart.height  - y( d.count ) + 55; })
+    .style("font-size","40px")
+    .style("font-wieght", 900)
+  .text(function(d){ return d.count; });
+  bchart.append("text")
+    .attr("class", "label")
+    .attr("x", function(d,i){ return x( i ) + 10 })
+    .attr("width", x.rangeBand())
+    .attr("fill", "#ffffff")
+    .attr("y", function(d){return   barChart.height  - y( d.count ) + 20; })
+    .style("fontsize","10px")
+    .text(function(d){ return d.type; });
+}
+
+var dset = <?php echo json_encode($D3_BarChart_Array); ?>;
+drawBarChart("value",dset,"#bar_holder");
 function drawDonutChart(chartID, dataSet, selectString) {
       // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
       // selectString => String that allows you to pass in
-      //           a D3.selectAll() string.
-var  donutChart ={ w: 497,h :234, r: Math.min(497, 234) / 2};
+      // a D3.selectAll() string.
+var  donutChart ={ w: 441,h :234, r: Math.min(497, 234) / 2};
 var color = d3.scale.category20c(); 
 var pie = d3.layout.pie().sort(null).value(function(d){return d.count});
 var arc = d3.svg.arc()
@@ -237,6 +307,8 @@ var _svg = d3.select(selectString).append("svg")
     .attr("class", function(){return "pie"+chartID;})
     .attr("width", donutChart.w)
     .attr("height", donutChart.h)
+    .append("svg:a")
+    .attr("xlink:href", chartID)
     .append("svg:g")
     .attr("transform", "translate(" + donutChart.w / 4 + "," + donutChart.h / 2 + ")");
 var _arc = _svg.selectAll("g.slice")
@@ -266,7 +338,7 @@ var _arc = _svg.selectAll("g.slice")
 
 
 var margin = {top: 80, right: 250, bottom: 70, left: 20},
-    width = 1024 - margin.left - margin.right,
+    width = 1260 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 var d3_data = <? echo json_encode($D3_Master_Array2); ?>;
 var y_domain = domainArray(d3_data, "type");
@@ -296,8 +368,8 @@ var y = d3.scale.ordinal().rangePoints([0, height],1);
 var colorDomain = colorDomain();
 var photoColors = ["#4ab000","#fe5e9a","#ffa6c7","#ffd1e3"]
 var paperColors =["#b137f0","#56ad16","#9ed976","#3d89ba","#8ecef5"]
-var canvasColors = ["#3081c2","#ff5e14","#ff883c","#ffbe78","#ffe4c7","#a24bff","#c691ff","#e2c7ff"];
-var screenColors =["#e55600","#5e4000","#6e592a","#94815c"];
+var screenColors = ["#3081c2","#ff5e14","#ff883c","#ffbe78","#ffe4c7","#a24bff","#c691ff","#e2c7ff"];
+var canvasColors =["#3182bd","#6baed6" ,"#e55600","#5e4000","#6e592a","#94815c"];
 var colorType= [];
 var colorRange = colorType.concat(photoColors,paperColors,canvasColors,screenColors);
 var color = d3.scale.ordinal().domain(colorDomain).range(colorRange); 

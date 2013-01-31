@@ -3,10 +3,10 @@
 @import "foundation";
 
 // Import Each Specific Piece for SASS
-@import "foundation/base";
-@import "foundation/globals";
-@import "foundation/typography";
-@import "foundation/grid";
+// @import "foundation/base";
+// @import "foundation/globals";
+// @import "foundation/typography";
+// @import "foundation/grid";
 // @import "foundation/ui";
 // @import "foundation/buttons";
 // @import "foundation/tabs";
@@ -45,12 +45,12 @@
     font-style: normal;
 }
 
-@mixin heavy-font(){
+@mixin display-font(){
 	font-family:'SansationBold', "trebuchet MS", Arial, sans-serif;
 	font-weight: 900;
 }
 
-@mixin bold-font(){
+@mixin copy-font(){
 	font-family:'SansationRegular', "trebuchet MS", Arial, sans-serif;
 	font-weight: 300;
 }
@@ -84,7 +84,7 @@
 }
 
 h1, h2, h3, h4 , strong,p.large{
-	font-family:'SansationBold', "trebuchet MS", Arial, sans-serif;
+	@include display-font();
 	letter-spacing:1px;
 }
 
@@ -102,6 +102,60 @@ p{ letter-spacing: 0.07em;
     line-height: 1.75em;
     margin: 0 0 1.5em;}
 p.large{color:#444}
+
+#main{
+	#introduction{
+		h1{
+			@include light-font();
+			font-size: 4.5em;
+		}
+		h4{
+			@include copy-font();
+			color: $mainColor;
+		}
+		strong{
+			color: $mainColor;
+		}
+
+	}
+	#galleries{
+		.gallery{
+			padding:0 25px;
+			h2{
+				@include copy-font();
+				font-size: 31px;
+				margin-bottom: -15px;
+				margin-left: -25px;
+				letter-spacing: 3px;
+			}
+			.d3_chart{
+				margin-left: -25px;
+			}
+			P{ color: #888;line-height: 1.35em;}
+			.thumbnails{
+				list-style: none;
+				padding:0;
+				margin-left: -25px;
+				.thumbnail{
+					float:left; 
+					margin:2px;
+					a{
+						display: inline-block;
+						border: 1px solid $secondaryColor;
+						padding:2px;
+						&:hover{
+							border: 1px solid $mainColor;
+						}
+						img{
+							border: 0px none #fff;vertical-align: middle;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 	
 
 header{
@@ -109,18 +163,18 @@ header{
 	position: fixed;
 	border-top: solid #333 5px;
 	width: 100%;
-	z-index: 3000;}
+	z-index: 3000;
+	}
 	.wrap{
-	background-color:#bfbfbf;
-	display:inline-block;
+		background-color:#bfbfbf;
+		display:inline-block;
 		border-radius: 0px 0px 10px 10px;
-	-moz-border-radius: 0px 0px 10px 10px;
-	-webkit-border-bottom-right-radius: 10px;
-	-webkit-border-bottom-left-radius: 10px;
+		-moz-border-radius: 0px 0px 10px 10px;
+		-webkit-border-bottom-right-radius: 10px;
+		-webkit-border-bottom-left-radius: 10px;
 	}
 	nav {
-		@include bold-font();
-	    font: 1.1em / 1.1 'SansationBold', "trebuchet MS", Arial, sans-serif;
+		@include display-font();
 	    color: #222;
 		float:left;
 		height:32px;
@@ -156,6 +210,8 @@ header{
 	}
 
 }	
+
+
 a{
 	&.icon{
 		padding:0px;
@@ -284,10 +340,55 @@ a:hover.cancel,a:active.cancel{background-position:-192px -64px;}
 
 
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1260px) and (min-width: 900px) {
+	#main{
+		 #introduction{
+		 
+		 	@include column(8);
+		 }
+		 #galleries{
+		 	@include column(8);
+		 	.gallery{
+		 		@include column(16);
+		 		.thumbnails{
+		 			@include column(6);
+		 		}
+		 		P{
+		 			@include column(10);
+		 		}
+		 	}
+		 }
+	}
+	#dataholder{
+		margin-left: -200px;
+	}
 
 }
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 900px) {
+	#main{
+		 #introduction{
+		 	h1{font-size: 3.5em;}
+		 	@include column(10);
+		 }
+		 #galleries{
+		 	@include column(6);
+		 	.gallery{
+		 	.d3_chart{
+		 	margin-left: -35px;
+		 	}
+		 		@include column(16);
+		 		.thumbnails{
+		 				@include column(16);
+		 				margin-left: 0;
+		 		}
+		 		 p{
+		 				@include column(16);
+		 				padding: 0;
+		 		}
+		 	}
+		 }
+	}
+	#dataholder{display: none;}
  
 }
 @media screen and (max-width: 500px) {

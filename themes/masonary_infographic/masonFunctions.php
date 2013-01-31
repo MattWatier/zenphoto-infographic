@@ -56,23 +56,45 @@ class MyGallery{
  	public  $color;
  	public  $filters;
  	public	function __construct($parent) {
- 	     $this->parent = $parent;
- 	   $this->filters = array();
- 	      
- 	       	  }
-	public	function add_to_filter($tags) {
-		$a = array_merge($this->filters, $tags);
- 		$this->filters = array_unique($a);
-	
- 			 		
+     	$this->parent = $parent;
+   		$this->filters = array();
  	}
+
+	public	function add_to_filter($tags) {
+		
+		foreach ($tags as $key => $value) {
+			$pos = strpos( $value , "color_" );
+			if( $pos == flase ){
+				if( $this->color[$value] == NULL) {	
+					 $this->color[$value] = array();
+					 $this->color[$value]["value"] = $value;
+					 $this->color[$value]["count"] = 1;
+				}
+				else
+				{
+					$this->color[$value]["count"] = $this->color[$value]["count"] + 1;
+				}
+
+			}else{
+				if( $this->filters[$value] == NULL) {	
+					 $this->filters[$value] = array();
+					 $this->filters[$value]["value"] = $value;
+					 $this->filters[$value]["count"] = 1;
+				}
+				else
+				{
+					$this->filters[$value]["count"] = $this->filters[$value]["count"] + 1;
+				}
+			}
+		}// end of foreach
+		
+
+		
+	}
 	
 	 public	function find_color_tag($tags){
- 		foreach ($tags as $key => $value) {
- 			if (fnmatch("color_*", $value)) {
- 			 $this->color = $value;
- 			}
- 		}
+	 	
+ 		
  	}
  	public function print_filters() {
  		$filterString = "";
@@ -82,6 +104,7 @@ class MyGallery{
 	 	return $filterString;
  	}
  	public function get_filters(){
+ 		
  		return $this->filters;
  	}
   	

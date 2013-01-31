@@ -25,19 +25,21 @@ include_once "masonFunctions.php";
 <body>
 <?php zp_apply_filter('theme_body_open'); ?>
 <?php include('_siteHeaderNav.php' ); ?>	
-<?php include('_canvas.php' ); ?>
 
-<div id="main" class="row">
-	<div id="breadcrumb">
-		<h4><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?>
-		</h4>
+
+<div id="main" class="row" style="padding-top:50px;">
+	<div id="breadcrumb" class="column six">
+		<h1><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
+		<p><?php printAlbumDesc(true); ?></p>
 	</div>
-<div id="gallerytitle" class="row">
-	<h2><?php printAlbumTitle(true);?></h2>
-</div>
+	<div id="dataholder" class="column ten">
+		<h4>Gallery Filter</h4>
 
+	</div>
+
+</div>
 <div class="row">
-	<p><?php printAlbumDesc(true); ?></p>
+	
 	<?
 	$gallery = new MyGallery(getBareAlbumTitle());
 	$gallery_item = "<div id='album' class='rows'>";
@@ -122,9 +124,9 @@ include_once "masonFunctions.php";
 $html ="";
 foreach ($filters as $key => $value) {
 	$html .= "<li><a class='button radius small' data-filter='.";
-	$html .= str_replace(" ", "-", $value);
+	$html .= str_replace(" ", "-", $value["value"]);
 	$html .= "' href='#'>";
-	$html .= $value;
+	$html .=  $value["value"];
 	$html .= "</a></li>";
 }
 echo $html;
@@ -134,22 +136,12 @@ echo $html;
 </div>
 <? echo $gallery_item; ?>
 </div>
-<? ?>
+
 		
 
 
 </div><hr class="space" />
-<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style ">
-<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-<a class="addthis_button_tweet"></a>
-<a class="addthis_button_pinterest_pinit"></a>
-<a class="addthis_counter addthis_pill_style"></a>
-</div>
-<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4dee9db02e8629a7"></script>
-<!-- AddThis Button END -->
-<!--Facebook Connected Comments-->
+
 <h1>Facebook Comments</h1>
 <fb:comments href="<?php echo 'http://www.'.$_SERVER[HTTP_HOST].getAlbumLinkURL(); ?>" num_posts="5" width="500"></fb:comments>
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>

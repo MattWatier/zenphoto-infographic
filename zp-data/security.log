@@ -6,3 +6,4 @@ date	requestor's IP	type	user ID	user name	outcome	authority	additional informat
 2013-01-16 18:02:22		Request add user			Success	zp_admin	admin
 2013-01-16 18:02:22		Authorization cookie check			Failed	
 2013-01-16 18:02:22		Admin access			Failed		/zp-core/admin-users.php?saved&show-admin&page=users
+2013-01-31 04:32:06		Authorization cookie check			Failed	
