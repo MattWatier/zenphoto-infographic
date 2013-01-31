@@ -1,15 +1,13 @@
 <?php
 if (!defined('WEBPATH')) die();
 $map = function_exists('printGoogleMap');
+$personality = getOption('garland_personality');
+require_once(SERVERPATH.'/'.THEMEFOLDER.'/garland/'.$personality.'/functions.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<?php
-	zp_apply_filter('theme_head');
-	$personality = getOption('garland_personality');
-	require_once(SERVERPATH.'/'.THEMEFOLDER.'/garland/'.$personality.'/functions.php');
-	?>
+	<?php zp_apply_filter('theme_head'); ?>
 	<title><?php printGalleryTitle(); ?> | <?php echo html_encode(getAlbumTitle()); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
 	<?php $oneImagePage = $personality->theme_head($_zp_themeroot); ?>
 	<link rel="stylesheet" href="<?php echo $_zp_themeroot ?>/zen.css" type="text/css" />
@@ -42,7 +40,7 @@ $map = function_exists('printGoogleMap');
 					<div class="main section" id="main">
 						<h2 id="gallerytitle">
 							<?php printHomeLink('',' » '); ?>
-							<a href="<?php echo html_encode(getGalleryIndexURL(false)); ?>" title="<?php echo gettext('Gallery Index'); ?>"><?php printGalleryTitle();?></a> » <?php printParentBreadcrumb("", " » ", " » "); ?><?php echo html_encode(getAlbumTitle()); ?>
+							<a href="<?php echo html_encode(getGalleryIndexURL(false)); ?>" title="<?php echo gettext('Gallery Index'); ?>"><?php echo getGalleryTitle();?></a> » <?php printParentBreadcrumb("", " » ", " » "); ?><?php echo html_encode(getAlbumTitle()); ?>
 						</h2>
 						<?php printAlbumDesc(); ?>
 						<?php printCodeblock(1); ?>
@@ -62,7 +60,6 @@ $map = function_exists('printGoogleMap');
 										</h3>
 										<br />
 										<small><?php printAlbumDate(); ?></small>
-									</li>
 									</div>
 								<p style="clear: both;"></p>
 								</div>
@@ -76,7 +73,8 @@ $map = function_exists('printGoogleMap');
 							if ((getNumAlbums() != 0) || !$oneImagePage){
 								printPageListWithNav(gettext("« prev"), gettext("next »"), $oneImagePage);
 							}
-							if (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_album);
+							?>
+							<?php
 							@call_user_func('printRating');
 							@call_user_func('printCommentForm');
 							printCodeblock(2);

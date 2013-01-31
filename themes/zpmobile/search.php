@@ -1,11 +1,11 @@
 <?php if (!defined('WEBPATH')) die();
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html>
 <head>
 	<?php zp_apply_filter('theme_head'); ?>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" />
 	<?php jqm_loadScripts();  ?>
 	<?php printZDSearchToggleJS(); ?>
@@ -17,10 +17,10 @@
 
 	<?php jqm_printMainHeaderNav(); ?>
 
-	<div data-role="content">
+	<div data-role="content">	
 		<div class="content-primary">
-
-	<h2><?php printSearchBreadcrumb(); ?></h2>
+	
+	<h2><?php echo gettext('Search'); ?></h2>
 	<?php
 		$zenpage = getOption('zp_plugin_zenpage');
 		$numimages = getNumImages();
@@ -47,7 +47,7 @@
 					$album_list = array('albums'=>$albumlist,'pages'=>'0', 'news'=>'0');
 					printSearchForm(NULL, 'search', NULL, gettext('Search album'), NULL, NULL, $album_list);
 				} else {
-				  printSearchForm("","search",NULL,gettext("Search gallery"));
+				  printSearchForm("","search","",gettext("Search gallery"));
 				}
 			}
 		}
@@ -145,7 +145,7 @@
 			<div id="images">
 				<?php while (next_image()) { ?>
 				<div class="image">
-					<div class="imagethumb"><a href="<?php echo html_encode(getImageLinkURL());?>" title="<?php printBareImageTitle();?>"><?php printCustomSizedImage(getAnnotatedImageTitle(), NULL,80, 80, 80,80, NULL, NULL, NULL, NULL, true, NULL); ?></a></div>
+					<div class="imagethumb"><a href="<?php echo html_encode(getImageLinkURL());?>" title="<?php echo getBareImageTitle();?>"><?php printCustomSizedImage(getAnnotatedImageTitle(), NULL,80, 80, 80,80, NULL, NULL, NULL, NULL, true, NULL); ?></a></div>
 				</div>
 				<?php } ?>
 			</div>
@@ -159,7 +159,7 @@
 
 			printPageListWithNav("« ".gettext("prev"),gettext("next")." »");
 			?>
-
+			
 		 </div>
 		 <div class="content-secondary">
 			<?php jqm_printMenusLinks(); ?>

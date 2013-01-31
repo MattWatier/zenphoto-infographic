@@ -1,7 +1,7 @@
 <?php
 // force UTF-8 Ø
-if (($zenpage = getOption('zp_plugin_zenpage')) || getOption('custom_index_page') == 'gallery') {
-	if ($zenpage) {
+if (getOption('custom_index_page') == 'gallery') {
+	if ($zenpage = getOption('zp_plugin_zenpage')) {
 		$imagereduction = 1/2;
 	} else {
 		$imagereduction = 1;

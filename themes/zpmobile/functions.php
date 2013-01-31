@@ -9,8 +9,9 @@ require_once(SERVERPATH.'/'.ZENFOLDER.'/'.PLUGIN_FOLDER.'/print_album_menu.php')
 function jqm_loadScripts() {
 global $_zp_themeroot;
 	?>
-	<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/jquerymobile/jquery.mobile-1.2.0.min.css" />
-	<script type="text/javascript" src="<?php echo $_zp_themeroot; ?>/jquerymobile/jquery.mobile-1.2.0.min.js"></script>
+	<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/jquerymobile/jquery.mobile-1.1.0.min.css" />
+	<script type="text/javascript" src="<?php echo $_zp_themeroot; ?>/jquerymobile/jquery.mobile-1.1.0.min.js"></script>
+	<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/jquerymobile/jquery.mobile.theme-1.1.0.min.css" />
 	<?php
 	printZDSearchToggleJS();
 }
@@ -25,19 +26,19 @@ function jqm_printRSSlinks() {
 		<ul>
 	<?php // these links must change to ones with rel="external" so they are actually loaded via jquerymobile!
 		if(getOption('zp_plugin_zenpage')) {
-			?>
-			<li class="rsslink"><a href="<?php echo html_encode(getZenpageRSSLink('News')); ?>" rel="external" data-ajax="false"><?php echo gettext('News'); ?></a></li>
-			<li class="rsslink"><a href="<?php echo html_encode(getZenpageRSSLink('NewsWithImages')); ?>" rel="external" data-ajax="false"><?php echo gettext('News and Gallery'); ?></a></li>
-			<?php
+		  ?>
+		  <li class="rsslink"><a href="<?php echo html_encode(getZenpageRSSLink('News')); ?>" rel="external" data-ajax="false"><?php echo gettext('News'); ?></a></li>
+		  <li class="rsslink"><a href="<?php echo html_encode(getZenpageRSSLink('NewsWithImages')); ?>" rel="external" data-ajax="false"><?php echo gettext('News and Gallery'); ?></a></li>
+		  <?php
 		}
 		 ?>
-			<li class="rsslink"><a href="<?php echo html_encode(getRSSLink('Gallery')); ?>" rel="external" data-ajax="false"><?php echo gettext('Gallery'); ?></a></li>
+		  <li class="rsslink"><a href="<?php echo html_encode(getRSSLink('Gallery')); ?>" rel="external" data-ajax="false"><?php echo gettext('Gallery'); ?></a></li>
 		 <?php
 		 if($_zp_gallery_page == 'album.php') {
 		 ?>
 		 <li class="rsslink"><a href="<?php echo html_encode(getRSSLink('Album')); ?>" rel="external" data-ajax="false"><?php echo gettext('Album'); ?></a></li>
-			<?php
-			}
+		  <?php
+		  }
 		?>
 		</ul>
 <?php
@@ -74,9 +75,7 @@ function jqm_printFooterNav() {
 	global $_zp_gallery_page, $_zp_current_album;
 	?>
 	<div id="footer">
-		<?php
-		@call_user_func('printLanguageSelector',"langselector");
-		?>
+		<?php @call_user_func('printLanguageSelector',"langselector"); ?>
 			<ul>
 				<li><?php echo gettext('Powered by'); ?> <a href="http://www.zenphoto.org">Zenphoto</a> and <a href="http://jquerymobile.com">jQueryMobile</a></li>
 				<li><?php echo gettext('zpMobile theme by'); ?> <a href="http://www.maltem.de">Malte Müller</a></li>
@@ -90,12 +89,6 @@ function jqm_printFooterNav() {
 						<li><a rel="external" href="<?php echo html_encode($protocol.'://'.$_SERVER['HTTP_HOST'].WEBPATH.'/'.ZENFOLDER); ?>"><?php echo gettext('Admin'); ?></a></li>
 						<?php
 					}
-				?>
-				<?php
-				if (function_exists('printFavoritesLink')) {
-					?>
-					<li><?php printFavoritesLink();?></li><?php
-				}
 				?>
 				<li><?php @call_user_func('mobileTheme::controlLink'); ?></li>
 			</ul>

@@ -35,15 +35,17 @@ if (!defined('WEBPATH') || !class_exists('Zenpage')) die();
 						<!-- begin content -->
 						<div class="main section" id="main">
 							<h2 id="gallerytitle">
-								<?php printHomeLink('',' » '); ?>
-								<a href="<?php echo html_encode(getGalleryIndexURL(false)); ?>" title="<?php echo gettext('Gallery Index'); ?>"><?php echo html_encode(getGalleryTitle()); ?></a>
-								<?php
-								printNewsIndexURL(NULL,' » ');
-								printZenpageItemsBreadcrumb(' » ','');
-								printCurrentNewsCategory(" » ");
-								printNewsTitle(" » ");
-								printCurrentNewsArchive(" » ");
-								?>
+							<?php printHomeLink('',' » '); ?>
+							<a href="<?php echo html_encode(getGalleryIndexURL(false)); ?>" title="<?php echo gettext('Gallery Index'); ?>"><?php echo html_encode(getGalleryTitle()); ?></a>
+							<?php
+							if (in_context(ZP_ZENPAGE_NEWS_CATEGORY) || getNewsTitle()) {
+								printNewsIndexURL(gettext("News"),"  » ");
+								printCurrentNewsCategory("  » ".gettext('Category')." - ");
+								printNewsTitle("  » ");
+							} else {
+								echo ' » '.gettext("News");
+							}
+							?>
 							</h2>
 							<?php
 							if(is_NewsArticle()) { // single news article

@@ -9,15 +9,13 @@
  *
 */
 
-require_once(dirname(__FILE__).'/functions.php');
-
 class ThemeOptions {
 
 	function ThemeOptions() {
 		setThemeOptionDefault('Allow_search', true);
 		setThemeOptionDefault('Theme_colors', 'light');
 		setThemeOptionDefault('albums_per_page', 6);
-		setThemeOptionDefault('albums_per_row', 2);
+		setThemeOptionDefault('albums_per_row', 3);
 		setThemeOptionDefault('images_per_page', 20);
 		setThemeOptionDefault('images_per_row', 5);
 		setThemeOptionDefault('image_size', 595);
@@ -48,10 +46,11 @@ class ThemeOptions {
   }
 
 	function handleOption($option, $currentValue) {
-		global $themecolors;
 		if ($option == 'Theme_colors') {
-			echo '<select id="EF_themeselect_colors" name="' . $option . '"' . ">\n";
-			generateListFromArray(array($currentValue), $themecolors, false, false);
+			$theme = basename(dirname(__FILE__));
+			$themeroot = SERVERPATH . "/themes/$theme/styles";
+			echo '<select id="Default_themeselect_colors" name="' . $option . '"' . ">\n";
+			generateListFromFiles($currentValue, $themeroot , '.css');
 			echo "</select>\n";
 		}
 	}

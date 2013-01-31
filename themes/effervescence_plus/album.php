@@ -5,16 +5,15 @@
 if (!defined('WEBPATH')) die();
 
 $map = function_exists('printGoogleMap');
+$themeResult = getTheme($zenCSS, $themeColor, 'kish-my father');
+$personality = strtolower(getOption('Theme_personality'));
+require_once(SERVERPATH.'/'.THEMEFOLDER.'/effervescence_plus/'.$personality.'/functions.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<?php
-	zp_apply_filter('theme_head');
-	$personality = strtolower(getOption('effervescence_personality'));
-	require_once(SERVERPATH.'/'.THEMEFOLDER.'/effervescence_plus/'.$personality.'/functions.php');
-	?>
-	<title><?php printBareGalleryTitle(); ?> | <?php printBareAlbumTitle(); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
+	<?php zp_apply_filter('theme_head'); ?>
+	<title><?php echo getBareGalleryTitle(); ?> | <?php echo getBareAlbumTitle(); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<?php $oneImagePage = $personality->theme_head($_zp_themeroot); ?>
 	<link rel="stylesheet" href="<?php echo pathurlencode($zenCSS); ?>" type="text/css" />
@@ -81,7 +80,7 @@ $map = function_exists('printGoogleMap');
 					<?php
 				}
 				?>
-				<a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php printGalleryTitle();?></a> |
+				<a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> |
 				<?php printParentBreadcrumb(); ?></span>
 				<?php printAlbumTitle(true);?>
 			</div>
@@ -133,7 +132,7 @@ $map = function_exists('printGoogleMap');
 								<?php printAlbumTitle(); ?>
 							</a>
 						</h4>
-						</li>
+					</li>
 					<?php
 				}
 				if (!is_null($firstAlbum)) {
@@ -144,7 +143,9 @@ $map = function_exists('printGoogleMap');
 				?>
 
 			<div class="clearage"></div>
-			<?php printNofM('Album', $firstAlbum, $lastAlbum, getNumAlbums()); ?>
+			<?php
+			printNofM('Album', $firstAlbum, $lastAlbum, getNumAlbums());
+			?>
 		</div> <!-- submain -->
 
 		<!-- Wrap Main Body -->
@@ -164,8 +165,7 @@ $map = function_exists('printGoogleMap');
 			} else {
 				?>
 				<div id="main">
-				<?php if (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_album); ?>
-				<?php @call_user_func('printRating'); ?>
+					<?php @call_user_func('printRating'); ?>
 				</div>
 				<?php
 			}
@@ -180,7 +180,7 @@ $map = function_exists('printGoogleMap');
 		}
 		?>
 		</div> <!-- pagenumbers -->
-		<?php commonComment(); ?>
+	<?php commonComment(); ?>
 </div> <!-- subcontent -->
 
 <!-- Footer -->

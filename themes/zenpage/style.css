@@ -5,7 +5,8 @@
 html { /* Moz */
 	margin: 0;
 	padding: 0;
-	font-family: "Helvetica Neue", "Lucida Grande", Arial, Helvetica, sans-serif;
+	font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial,
+		sans-serif;
 	color: #222;
 }
 
@@ -78,7 +79,8 @@ body {
 	font-weight: normal;
 	float: left;
 	width: 590px;
-	font-family: "Helvetica Neue", "Lucida Grande", Arial, Helvetica, sans-serif;
+	font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial,
+		sans-serif;
 }
 
 #breadcrumb a {
@@ -232,7 +234,8 @@ body {
 		font-size: 13px;
 	letter-spacing: 0;
 		font-style: normal;
-	font-family: "Helvetica Neue", "Lucida Grande", Arial, Helvetica, sans-serif;
+	font-family: "Helvetica Neue", "Lucida Grande", Helvetica, Arial,
+		sans-serif;
 }
 
 #footer {
@@ -413,14 +416,14 @@ ul.pagelist li.next {
 ------------------------------ */
 #images {
 	float: left;
-	width: 650px;
+	width: 590px;
 	border: 0px solid gray;
 }
 
 .imagethumb a,.imagethumb a:hover {
 	display: block;
 	padding: 7px;
-	margin: 0px 6px 12px 0px;
+	margin: 0px 12px 12px 0px;
 	line-height: 0px;
 	border: 1px solid #e6e6e6;
 	background-color: #FBFBF8;
@@ -444,7 +447,7 @@ ul.pagelist li.next {
 ------------------------------ */
 #albums {
 	float: left;
-	width: 650px;
+	width: 590px;
 	border: 0px solid gray;
 	font-size: 10px;
 }
@@ -757,7 +760,7 @@ textarea {
 	padding: 4px;
 	width: 100%;
 	color: #5A5A4B;
-	font: 100%/ 200% "Helvetica Neue", Arial, Helvetica, sans-serif;
+	font: 100%/ 200% "Helvetica Neue", Helvetica, Arial, sans-serif;
 	border: 1px solid #e5e5e5;
 	background-color: #f1f1f1; 
 }

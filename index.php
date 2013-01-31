@@ -10,10 +10,7 @@ checkInstall();
 /**
  * Invoke the controller to handle requests
  */
-require_once(dirname(__FILE__). "/".ZENFOLDER.'/functions-controller.php');
-zp_load_gallery();
 require_once(dirname(__FILE__). "/".ZENFOLDER.'/controller.php');
-
 // RSS feed calls before anything else
 if (isset($_GET['rss'])) {
 	require_once(dirname(__FILE__). "/".ZENFOLDER.'/class-rss.php');
@@ -25,22 +22,25 @@ $_zp_script = '';
 //$_zp_script_timer['controller'] = microtime();
 // Display an arbitrary theme-included PHP page
 if (isset($_GET['p'])) {
-	$_index_theme = prepareCustomPage();
+	$theme = prepareCustomPage();
 // Display an Image page.
 } else if (in_context(ZP_IMAGE)) {
-	$_index_theme = prepareImagePage();
+	$theme = prepareImagePage();
 
 // Display an Album page.
 } else if (in_context(ZP_ALBUM)) {
-	$_index_theme = prepareAlbumPage();
+	$theme = prepareAlbumPage();
 	// Display the Index page.
 } else if (in_context(ZP_INDEX)) {
-	$_index_theme = prepareIndexPage();
-} else {
-	$_index_theme = setupTheme();
+	$theme = prepareIndexPage();
+}
+
+//$_zp_script_timer['page'] = microtime();
+if (!isset($theme)) {
+	$theme = setupTheme();
 }
 //$_zp_script_timer['theme setup'] = microtime();
-$custom = SERVERPATH.'/'.THEMEFOLDER.'/'.internalToFilesystem($_index_theme).'/functions.php';
+$custom = SERVERPATH.'/'.THEMEFOLDER.'/'.internalToFilesystem($theme).'/functions.php';
 if (file_exists($custom)) {
 	require_once($custom);
 } else {
@@ -51,18 +51,17 @@ if (DEBUG_PLUGINS) {
 	debugLog('Loading the "theme" plugins.');
 }
 $_zp_loaded_plugins = array();
-foreach (getEnabledPlugins() as $extension=>$plugin) {
-	$loadtype = $plugin['priority'];
+foreach (getEnabledPlugins() as $extension=>$loadtype) {
 	if ($loadtype&THEME_PLUGIN) {
 		if (DEBUG_PLUGINS) {
 			list($usec, $sec) = explode(" ", microtime());
 			$start = (float)$usec + (float)$sec;
 		}
-		require_once($plugin['path']);
+		require_once(getPlugin($extension.'.php'));
 		if (DEBUG_PLUGINS) {
 				list($usec, $sec) = explode(" ", microtime());
 				$end = (float)$usec + (float)$sec;
-				debugLog(sprintf('    '.$extension.'(THEME:%u)=>%.4fs',$priority & PLUGIN_PRIORITY,$end-$start));
+				debugLog(sprintf('    '.$extension.'('.($priority & PLUGIN_PRIORITY).')=>%.4fs',$end-$start));
 			}
 //		$_zp_script_timer['load '.$extension] = microtime();
 	}
@@ -79,7 +78,7 @@ if ($zp_request && $_zp_script && file_exists(SERVERPATH . "/" . internalToFiles
 			$_zp_HTML_cache->abortHTMLCache();
 		}
 		$_zp_gallery_page = 'password.php';
-		$_zp_script = SERVERPATH.'/'.THEMEFOLDER.'/'.$_index_theme.'/password.php';
+		$_zp_script = SERVERPATH.'/'.THEMEFOLDER.'/'.$theme.'/password.php';
 		if (!file_exists(internalToFilesystem($_zp_script))) {
 			$_zp_script = SERVERPATH.'/'.ZENFOLDER.'/password.php';
 		}
@@ -98,9 +97,9 @@ if ($zp_request && $_zp_script && file_exists(SERVERPATH . "/" . internalToFiles
 		$_zp_HTML_cache->abortHTMLCache();
 	}
 	list($album, $image) = rewrite_get_album_image('album','image');
-	debug404($album, $image, $_index_theme);
+	debug404($album, $image, $theme);
 	$_zp_gallery_page = '404.php';
-	$_zp_script = THEMEFOLDER.'/'.internalToFilesystem($_index_theme).'/404.php';
+	$_zp_script = THEMEFOLDER.'/'.internalToFilesystem($theme).'/404.php';
 	header ('Content-Type: text/html; charset=' . LOCAL_CHARSET);
 	header("HTTP/1.0 404 Not Found");
 	header("Status: 404 Not Found");
@@ -113,7 +112,7 @@ if ($zp_request && $_zp_script && file_exists(SERVERPATH . "/" . internalToFiles
 	}
 }
 //$_zp_script_timer['theme script load'] = microtime();
-exposeZenPhotoInformations($_zp_script, $_zp_loaded_plugins, $_index_theme);
+exposeZenPhotoInformations($_zp_script, $_zp_loaded_plugins, $theme);
 //$_zp_script_timer['expose information'] = microtime();
 db_close();	// close the database as we are done
 echo "\n";

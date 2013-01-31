@@ -2,7 +2,8 @@
 
 // force UTF-8 Ø
 
-if (!defined('WEBPATH')) die(); ?>
+if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'light');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +42,7 @@ if (!defined('WEBPATH')) die(); ?>
 		</ul>
 
 			<?php while (next_image()): ?>
-			<div class="image"><a href="<?php echo html_encode(getImageLinkURL());?>" title="<?php printBareImageTitle();?>">
+			<div class="image"><a href="<?php echo html_encode(getImageLinkURL());?>" title="<?php echo getBareImageTitle();?>">
 			<?php printCustomSizedImage(getAnnotatedImageTitle(), NULL,79, 79, 79, 79, NULL, NULL, NULL, NULL, true, NULL); ?>
 			</a>
 			</div>
@@ -49,14 +50,6 @@ if (!defined('WEBPATH')) die(); ?>
 
 		<br clear="all" />
 		<?php if(hasPrevPage() || hasNextPage()) printPageListWithNav(gettext("prev"), gettext("next"),false,true,'pagelist',NULL,true,7); ?>
-		<?php
-					if (function_exists('printAddToFavorites')) {
-						echo "<br />";
-						printAddToFavorites($_zp_current_album);
-					}
-	
-	  ?>	
-			
 			<?php
 		if (function_exists('printCommentForm')) {
 		  printCommentForm();

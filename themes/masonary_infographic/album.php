@@ -2,7 +2,7 @@
 
 // force UTF-8 Ø
 
-if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'light');
+if (!defined('WEBPATH')) die();
 include_once "masonFunctions.php";
 ?>
 <!DOCTYPE html>
@@ -40,10 +40,10 @@ include_once "masonFunctions.php";
 </div>
 <div class="row">
 	
-	<?
+	<?php
 	$gallery = new MyGallery(getBareAlbumTitle());
 	$gallery_item = "<div id='album' class='rows'>";
-	$checked = false;
+	$checked = FALSE;
 		while (next_album( $all = true)):
 		$crap = getAlbumThumb( getBareAlbumTitle());
 		$current_alblum = $_zp_current_album;
@@ -69,7 +69,7 @@ include_once "masonFunctions.php";
 			
 			//echo "tags";
 			$tags= getTags();
-			array_push($array, getBareAlbumTitle());
+			
 			$space_separated_array = implode("_", $tags);
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);
 			$space_separated_array = str_replace("_", " ", $space_separated_array);
@@ -97,7 +97,7 @@ include_once "masonFunctions.php";
 			
 			//echo "tags";
 			$tags= getTags();
-			array_push($array, getBareAlbumTitle());
+			
 			$gallery->add_to_filter($tags);
 			$space_separated_array = implode("_", $tags);
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);

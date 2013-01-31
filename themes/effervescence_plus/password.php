@@ -2,6 +2,7 @@
 
 // force UTF-8 Ø
 if (!defined('WEBPATH')) die();
+$themeResult = getTheme($zenCSS, $themeColor, 'kish-my father');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -32,7 +33,7 @@ if (!defined('WEBPATH')) die();
 		<div id="wrapnav">
 			<div id="navbar">
 				<?php printHomeLink('', ' | '); ?>
-			<a href="<?php echo html_encode(getGalleryIndexURL(false));?>" title="<?php echo gettext('Index'); ?>"><?php printGalleryTitle();?></a></span>  |
+			<a href="<?php echo html_encode(getGalleryIndexURL(false));?>" title="<?php echo gettext('Index'); ?>"><?php echo getGalleryTitle();?></a></span>  |
 				<?php echo gettext('A password is required for the page you requested'); ?>
 			</div>
 		</div>

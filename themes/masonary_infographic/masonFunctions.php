@@ -64,7 +64,7 @@ class MyGallery{
 		
 		foreach ($tags as $key => $value) {
 			$pos = strpos( $value , "color_" );
-			if( $pos == flase ){
+			if( $pos == FALSE ){
 				if( $this->color[$value] == NULL) {	
 					 $this->color[$value] = array();
 					 $this->color[$value]["value"] = $value;

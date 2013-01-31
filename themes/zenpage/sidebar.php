@@ -9,7 +9,7 @@ if(function_exists('printCustomMenu') && getOption('zenpage_custommenu')) {
 </div>
 <?php
 } else {
-if (getOption('zp_plugin_zenpage')) { ?>
+if(function_exists("printAllNewsCategories")) { ?>
 <div class="menu">
 	<h3><?php echo gettext("News articles"); ?></h3>
 	<?php
@@ -22,7 +22,7 @@ if (getOption('zp_plugin_zenpage')) { ?>
 <div class="menu">
 	<h3><?php echo gettext("Gallery"); ?></h3>
 	<?php
-	if(getOption('zp_plugin_zenpage') && !($_zp_zenpage->news_on_index = getOption("zenpage_zp_index_news")) || !getOption("zenpage_homepage")) {
+	if(!($_zp_zenpage->news_on_index = getOption("zenpage_zp_index_news")) OR !getOption("zenpage_homepage")) {
 		$allalbums = gettext("Gallery index");
 	} else {
 		$allalbums = "";
@@ -32,7 +32,7 @@ if (getOption('zp_plugin_zenpage')) { ?>
 </div>
 <?php } ?>
 
-<?php if (getOption('zp_plugin_zenpage')) { ?>
+<?php if(function_exists("printPageMenu")) { ?>
 <div class="menu">
 	<h3><?php echo gettext("Pages"); ?></h3>
 	<?php
@@ -109,15 +109,8 @@ if (getOption('RSS_album_image') || getOption('RSS_articles')) {
 					</li>
 					<?php
 				}
-				if (function_exists('printFavoritesLink')) {
-					?>
-					<li>
-					<?php printFavoritesLink(); ?>
-					</li>
-					<?php
-				}
 				if (function_exists("printUserLogin_out")) {
-					?>
+				?>
 					<li>
 					<?php printUserLogin_out("","", 2); ?>
 					</li>
@@ -125,10 +118,10 @@ if (getOption('RSS_album_image') || getOption('RSS_articles')) {
 				}
 				if (class_exists('mobileTheme')) {
 				?>
-				<li>
-				<?php mobileTheme::controlLink(NULL, '',''); ?>
-				</li>
-				<?php
+					<li>
+					<?php mobileTheme::controlLink(); ?>
+					</li>
+					<?php
 				}
 				?>
 			</ul>

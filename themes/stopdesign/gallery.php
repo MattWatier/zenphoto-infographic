@@ -7,10 +7,10 @@ require_once('normalizer.php');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<?php zp_apply_filter('theme_head'); ?>
-	<title><?php printBareGalleryTitle(); ?> <?php echo gettext("Archive"); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
+	<title><?php echo getBareGalleryTitle(); ?> <?php echo gettext("Archive"); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="<?php echo $_zp_themeroot ?>/css/master.css" />
 	<?php
@@ -22,7 +22,7 @@ require_once('normalizer.php');
 
 <body class="archive">
 	<?php zp_apply_filter('theme_body_open'); ?>
-	<?php printGalleryTitle(); ?><?php if (getOption('Allow_search')) {  printSearchForm(); } ?>
+	<?php echo getGalleryTitle(); ?><?php if (getOption('Allow_search')) {  printSearchForm(); } ?>
 
 <div id="content">
 
@@ -37,9 +37,9 @@ require_once('normalizer.php');
 			?>
 	<li class="gal">
 	<h3><a href="<?php echo html_encode(getAlbumLinkURL());?>"
-		title="<?php echo gettext('View album:').' '; printAnnotatedAlbumTitle();?>"><?php printAlbumTitle(); ?></a></h3>
+		title="<?php echo gettext('View album:').' '; echo getAnnotatedAlbumTitle();?>"><?php printAlbumTitle(); ?></a></h3>
 	<a href="<?php echo html_encode(getAlbumLinkURL());?>"
-		title="<?php echo gettext('View album:').' '; printAnnotatedAlbumTitle();?>"
+		title="<?php echo gettext('View album:').' '; echo getAnnotatedAlbumTitle();?>"
 		class="img"><?php printCustomAlbumThumbImage(getAnnotatedAlbumTitle(), null, ALBUM_THUMB_WIDTH,ALBUM_THUMB_HEIGHT,ALBUM_THUMB_WIDTH,ALBUM_THUMB_HEIGHT); ?></a>
 		<p>
 		<?php
@@ -107,18 +107,13 @@ require_once('normalizer.php');
 <p id="path">
 	<?php printHomeLink('', ' > '); ?>
 	<a href="<?php echo html_encode(getGalleryIndexURL(false));?>" title="<?php echo gettext('Main Index'); ?>"><?php echo gettext('Home');?></a> &gt;
-	<?php printGalleryTitle();?>
+	<?php echo getGalleryTitle();?>
 	<?php echo gettext('Gallery Archive'); ?>
 </p>
 
 <div id="footer">
 	<hr />
-	<?php
-	if (function_exists('printFavoritesLink')) {
-		printFavoritesLink();
-	}
-	if (function_exists('printUserLogin_out')) { printUserLogin_out(""); }
-	?>
+	<?php if (function_exists('printUserLogin_out')) { printUserLogin_out(""); } ?>
 	<p>
 		<?php echo gettext('<a href="http://stopdesign.com/templates/photos/">Photo Templates</a> from Stopdesign');?>.
 		<?php printZenphotoLink(); ?>

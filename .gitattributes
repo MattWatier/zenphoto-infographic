@@ -1,4 +1,4 @@
-# Forces 
+# Auto detect text files and perform LF normalization
 * text=auto
 
 # Custom for Visual Studio
@@ -20,12 +20,3 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
-
-# Denote all files that are truly binary and should not be modified.
-*.png	binary
-*.jpg	binary
-*.swf	binary
-*.ico	binary
-*.gif	binary
-*.mo	binary
-*.gdf	binary

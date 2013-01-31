@@ -151,10 +151,6 @@ div.albumdesc {
 position: relative;
 }
 
-.image-favorite {
-min-height: 140px;
-}
-
 #image {
 clear: both;
 margin: 10px 0px 15px 0px;
@@ -270,11 +266,6 @@ margin: 0;
 padding: 0 !important;
 display: inline;
 }
-
-footer ul li {
-float: left;
-}
-
 #footer  ul.flags {
 line-height: 25px;
 }

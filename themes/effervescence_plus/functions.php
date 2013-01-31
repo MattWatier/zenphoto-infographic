@@ -2,107 +2,6 @@
 
 // force UTF-8 Ø
 
-zp_register_filter('themeSwitcher_head', 'switcher_head');
-zp_register_filter('themeSwitcher_Controllink', 'switcher_controllink');
-zp_register_filter('theme_head', 'css_head', 0);
-
-$personalities = array(gettext('Image page') => 'image_page', gettext('Simpleviewer') => 'simpleviewer', gettext('Colorbox') => 'colorbox', gettext('Image gallery') => 'image_gallery');
-$curdir = getcwd();
-chdir(SERVERPATH . "/themes/".basename(dirname(__FILE__))."/styles");
-$filelist = safe_glob('*.css');
-$themecolors = array();
-foreach($filelist as $file) {
-	$file = str_replace('.css', '', $file);
-	$themecolors[] = filesystemToInternal($file);
-}
-chdir($curdir);
-
-function css_head($ignore) {
-	global $themecolors, $zenCSS, $themeColor, $_zp_themeroot;
-	if (!$themeColor) {
-		$themeColor = getThemeOption('Theme_colors');
-	}
-	$zenCSS = $_zp_themeroot . '/styles/' . $themeColor . '.css';
-	$unzenCSS = str_replace(WEBPATH, '', $zenCSS);
-	if (!file_exists(SERVERPATH . internalToFilesystem($unzenCSS))) {
-		$zenCSS = $_zp_themeroot. "/styles/light.css";
-	}
-	return $ignore;
-}
-
-function switcher_head($ignore) {
-	global $personalities, $personality, $themecolors, $themeColor;
-	$themeColor = getOption('themeSwitcher_effervescence_color');
-	if (isset($_GET['themeColor'])) {
-		$new = $_GET['themeColor'];
-		if (in_array($new, $themecolors)) {
-			setOption('themeSwitcher_effervescence_color', $new);
-			$themeColor = $new;
-		}
-	}
-	if (!$themeColor) {
-		$themeColor = getThemeOption('Theme_colors');
-	}
-
-	$personality = getOption('themeSwitcher_effervescence_personality');
-	if (isset($_GET['themePersonality'])) {
-		$new = $_GET['themePersonality'];
-		if (in_array($new, $personalities)) {
-			setOption('themeSwitcher_effervescence_personality', $new);
-			$personality = $new;
-		}
-	}
-	if ($personality) {
-		setOption('effervescence_personality', $personality, false);
-	}
-	?>
-	<script type="text/javascript">
-		// <!-- <![CDATA[
-		function switchColors() {
-			personality = $('#themeColor').val();
-			window.location = '?themeColor='+personality;
-		}
-		function switchPersonality() {
-			personality = $('#themePersonality').val();
-			window.location = '?themePersonality='+personality;
-		}
-		// ]]> -->
-	</script>
-	<?php
-	return $ignore;
-}
-
-function switcher_controllink($ignore) {
-	global $personalities, $themecolors, $_zp_gallery_page;
-	$color = getOption('themeSwitcher_effervescence_color');
-	if (!$color) {
-		$color = getOption('Theme_colors');
-	}
-	?>
-	<span id="themeSwitcher_effervescence">
-		<span title="<?php echo gettext("Effervescence color scheme."); ?>">
-			<?php echo gettext('Theme Color'); ?>
-			<select name="themeColor" id="themeColor" onchange="switchColors();">
-				<?php  generateListFromArray(array($color), $themecolors, false, false); ?>
-			</select>
-		</span>
-		<?php
-		$personality =getOption('themeSwitcher_effervescence_personality');
-		if (!$personality) {
-			$personality = getOption('effervescence_personality');
-		}
-		?>
-		<span title="<?php echo gettext("Effervescence image display handling."); ?>">
-			<?php echo gettext('Personality'); ?>
-			<select name="themePersonality" id="themePersonality" onchange="switchPersonality();">
-				<?php generateListFromArray(array($personality), $personalities, false, true); ?>
-			</select>
-		</span>
-	</span>
-	<?php
-	return $ignore;
-}
-
 /* SQL Counting Functions */
 function get_subalbum_count() {
 	$where = "WHERE parentid IS NOT NULL";
@@ -209,7 +108,7 @@ function printThemeInfo() {
 	if ($themeColor == 'effervescence') {
 		$themeColor = '';
 	}
-	$personality = getOption('effervescence_personality');
+	$personality = getOption('Theme_personality');
 	if ($personality == 'Image page') {
 		$personality = '';
 	} else if (($personality == 'Simpleviewer' && !class_exists('simpleviewer')) ||
@@ -326,12 +225,6 @@ function printFooter($admin=true) {
 		<?php printThemeInfo(); ?>
 		<?php printZenphotoLink(); ?>
 		<br />
-		<?php
-		if (function_exists('printFavoritesLink') && $_zp_gallery_page != 'password.php' && $_zp_gallery_page != 'favorites.php') {
-			printFavoritesLink();
-			echo '<br />';
-		}
-		?>
 		<?php if ($_zp_gallery_page == 'gallery.php') { printRSSLink('Gallery','', 'Gallery RSS', ''); echo '<br />'; } ?>
 		<?php	if ($_zp_gallery_page != 'password.php') { @call_user_func('printUserLogin_out',''); echo '<br />'; } ?>
 		<?php	if ($_zp_gallery_page!='contact.php' && getOption('zp_plugin_contact_form') && ($_zp_gallery_page != 'password.php' || $_zp_gallery->isUnprotectedPage('contact'))) { printCustomPageURL(gettext('Contact us'), 'contact', '', '');	echo '<br />'; } ?>

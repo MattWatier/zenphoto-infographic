@@ -7,7 +7,7 @@ if (getOption('Allow_search')) {
 		case 'album.php':
 		case 'image.php':
 			$list = array('albums'=>array($_zp_current_album->name),'pages'=>'0', 'news'=>'0');
-			$text = gettext('Search within album');
+			$text = gettext('Search album');
 			break;
 		case 'gallery.php':
 			$list = array('albums'=>'1','pages'=>'0', 'news'=>'0');
@@ -53,7 +53,7 @@ if (getOption('Allow_search')) {
 	<?php
 }
 
-if (function_exists('printCustomMenu') && getThemeOption('custom_index_page', NULL, 'garland') === 'gallery' && ($menu = getThemeOption('garland_menu'))) {
+if(function_exists('printCustomMenu') && ($menu = getOption('garland_menu'))) {
 	?>
 	<!-- custom menu -->
 	<div class="menu">
@@ -65,7 +65,7 @@ if (function_exists('printCustomMenu') && getThemeOption('custom_index_page', NU
 } else {	//	"standard zenpage sidebar menus
 	?>
 	<!-- standard menu -->	<?php
-	if(getOption('zp_plugin_zenpage')) {
+	if(function_exists("printAllNewsCategories")) {
 		if (getNumNews(true)) {
 			?>
 			<div class="menu">
@@ -112,7 +112,7 @@ if (function_exists('printCustomMenu') && getThemeOption('custom_index_page', NU
 	?>
 
 	<?php
-	if (getOption('zp_plugin_zenpage')) {
+	if(function_exists("printPageMenu")) {
 		if (getNumPages(true)) {
 			?>
 			<div class="menu">

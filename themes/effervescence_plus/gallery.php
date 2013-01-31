@@ -2,18 +2,19 @@
 
 // force UTF-8 Ø
 if (!defined('WEBPATH')) die();
+$themeResult = getTheme($zenCSS, $themeColor, 'kish-my father');
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+	<?php zp_apply_filter('theme_head'); ?>
 	<?php
-	zp_apply_filter('theme_head');
 	if (getOption('effervescence_daily_album_image_effect') && getOption('custom_index_page') != 'gallery') {
 		setOption('image_custom_images', getOption('effervescence_daily_album_image_effect'), false);
 	}
 	?>
-	<title><?php printBareGalleryTitle(); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
+	<title><?php echo getBareGalleryTitle(); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<link rel="stylesheet" href="<?php echo pathurlencode($zenCSS); ?>" type="text/css" />
 	<link rel="stylesheet" href="<?php echo WEBPATH.'/'.THEMEFOLDER; ?>/effervescence_plus/common.css" type="text/css" />
@@ -50,8 +51,8 @@ if (!defined('WEBPATH')) die();
 					<a href="<?php echo html_encode(getGalleryIndexURL(false));?>" title="<?php echo gettext('Main Index'); ?>"><?php echo gettext('Home');?></a> |
 					<?php
 				}
-				printGalleryTitle();
-				?>
+ 				printGalleryTitle();
+ 				?>
 				</span>
 			</div>
 		</div> <!-- wrapnav -->
@@ -83,7 +84,7 @@ if (!defined('WEBPATH')) die();
 				<div class="imagethumb">
 				<a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php echo $annotate; ?>">
 						<?php printCustomAlbumThumbImage($annotate, null, 180, null, 180, 80); ?>
-				</a>
+ 				</a>
 				</div>
 				<h4><a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php echo $annotate; ?>"><?php printAlbumTitle(); ?></a></h4>
 			</li>

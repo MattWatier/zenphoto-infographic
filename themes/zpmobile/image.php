@@ -39,7 +39,7 @@ if (!defined('WEBPATH')) die();
 			<?php
 				if(isImagePhoto()) {
 				 ?>
-					<img src="<?php echo pathurlencode(getDefaultSizedImage()); ?>" alt="<?php printBareImageTitle(); ?>" style="max-width:<?php echo getDefaultWidth(); ?>px"/>
+					<img src="<?php echo pathurlencode(getDefaultSizedImage()); ?>" alt="<?php echo getBareImageTitle(); ?>" style="max-width:<?php echo getDefaultWidth(); ?>px"/>
 					<?php
 				} else {
 					printDefaultSizedImage(getImageTitle());
@@ -71,7 +71,6 @@ if (!defined('WEBPATH')) die();
 		}
 		?>
 		<br style="clear:both" />
-		<?php If (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_image); ?>
 		<?php if (function_exists('printRating')) {
 				echo '<div id="rating">';
 				printRating();

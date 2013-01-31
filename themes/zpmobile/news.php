@@ -6,7 +6,7 @@ if (!defined('WEBPATH') || !class_exists('Zenpage')) die();
 <html>
 <head>
 	<?php zp_apply_filter('theme_head'); ?>
-	<title><?php echo gettext("News"); ?> <?php printBareNewsTitle(""); ?><?php printCurrentNewsCategory(" | "); printCurrentNewsArchive(); ?> | <?php printBareGalleryTitle(); ?></title>
+	<title><?php echo gettext("News"); ?> <?php echo getBareNewsTitle(""); ?><?php printCurrentNewsCategory(" | "); printCurrentNewsArchive(); ?> | <?php echo getBareGalleryTitle(); ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" />
@@ -23,7 +23,7 @@ if (!defined('WEBPATH') || !class_exists('Zenpage')) die();
 
 <div data-role="content">
 	<div class="content-primary">
-		<h2 class="breadcrumb"><?php printNewsIndexURL(); ?><strong><?php printZenpageItemsBreadcrumb(' ',''); printCurrentNewsCategory(" "); ?><?php printNewsTitle(" "); printCurrentNewsArchive(" | "); ?></strong></h2>
+		<h2 class="breadcrumb"><?php printNewsIndexURL(gettext('News'),''); ?><strong><?php printZenpageItemsBreadcrumb(' ',''); printCurrentNewsCategory(" "); ?><?php printNewsTitle(" "); printCurrentNewsArchive(" | "); ?></strong></h2>
 		<?php
 // single news article
 if(is_NewsArticle()) {
@@ -53,7 +53,7 @@ if(is_NewsArticle()) {
 	 <?php
 		 while (next_news()): ?>
 			<li>
-			<a href="<?php echo html_encode(jqm_getNewsLink()); ?>" title="<?php printBareNewsTitle(); ?>">
+			<a href="<?php echo html_encode(jqm_getNewsLink()); ?>" title="<?php echo getBareNewsTitle(); ?>">
 			<?php printNewsTitle(); ?> <small>(<?php printNewsDate();?>)</small>
 			<div class="albumdesc"><?php echo shortenContent(strip_tags(getNewsContent()), 57,'(...)',false); ?></div>
 			<?php jqm_printCombiNewsThumb(); ?>

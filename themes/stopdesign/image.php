@@ -6,10 +6,10 @@ if (!defined('WEBPATH')) die();
 require_once('normalizer.php');
  ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<?php zp_apply_filter('theme_head'); ?>
-	<title><?php printBareImageTitle();?></title>
+	<title><?php echo getBareImageTitle();?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="<?php echo $_zp_themeroot ?>/css/master.css" />
 	<script type="text/javascript">var blogrelurl = "<?php echo $_zp_themeroot ?>";</script>
@@ -48,7 +48,7 @@ require_once('normalizer.php');
 
 <body class="photosolo">
 	<?php zp_apply_filter('theme_body_open'); ?>
-	<?php printGalleryTitle(); ?><?php if (getOption('Allow_search')) {  printSearchForm(); } ?>
+	<?php echo getGalleryTitle(); ?><?php if (getOption('Allow_search')) {  printSearchForm(); } ?>
 
 		<div id="content" class="v">
 
@@ -91,7 +91,7 @@ require_once('normalizer.php');
 					$fullimage = getFullImageURL();
 					if (!empty($fullimage)) {
 						?>
-						<a href="<?php echo html_encode($fullimage);?>" title="<?php printBareImageTitle();?>"><?php echo gettext('Full Size'); ?></a>
+						<a href="<?php echo html_encode($fullimage);?>" title="<?php echo getBareImageTitle();?>"><?php echo gettext('Full Size'); ?></a>
 						<?php
 					}
 					?>
@@ -100,7 +100,6 @@ require_once('normalizer.php');
 			</div>
 
 			<div class="main">
-				<?php If (function_exists('printAddToFavorites')) printAddToFavorites($_zp_current_image); ?>
 				<div class="rating"><?php if (function_exists('printRating')) printRating(); ?></div>
 				<?php
 				if (function_exists('printCommentForm')) {
@@ -159,17 +158,12 @@ require_once('normalizer.php');
 		<p id="path">
 			<?php printHomeLink('', ' > '); ?>
 			<a href="<?php echo html_encode(getGalleryIndexURL(false));?>" title="<?php echo gettext('Main Index'); ?>"><?php echo gettext('Home');?></a> &gt;
-			<a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php printGalleryTitle();?></a> &gt; <?php printParentBreadcrumb("", " > ", " > "); printAlbumBreadcrumb("", " > "); echo getImageTitle(); ?>
+			<a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> &gt; <?php printParentBreadcrumb("", " > ", " > "); printAlbumBreadcrumb("", " > "); echo getImageTitle(); ?>
 		</p>
 
 		<div id="footer">
 			<hr />
-			<?php
-			if (function_exists('printFavoritesLink')) {
-				printFavoritesLink();
-			}
-			if (function_exists('printUserLogin_out')) { printUserLogin_out(""); }
-			?>
+			<?php if (function_exists('printUserLogin_out')) { printUserLogin_out(""); } ?>
 			<p>
 				<?php echo gettext('<a href="http://stopdesign.com/templates/photos/">Photo Templates</a> from Stopdesign.'); ?>
 				<?php printZenphotoLink(); ?>

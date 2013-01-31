@@ -9,7 +9,7 @@ if (!defined('WEBPATH')) die();
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<?php zp_apply_filter('theme_head'); ?>
-	<title><?php printBareGalleryTitle(); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
+	<title><?php echo getBareGalleryTitle(); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<link rel="stylesheet" href="<?php echo $_zp_themeroot; ?>/style.css" type="text/css" />
 	<?php printRSSHeaderLink('Gallery',gettext('Gallery RSS')); ?>
@@ -32,19 +32,17 @@ if (!defined('WEBPATH')) die();
 	</h2>
 	</div>
 	<div id="content-left">
-	<?php
-	if(!getOption('zp_plugin_zenpage') || !($_zp_zenpage->news_on_index = getOption("zenpage_zp_index_news"))) {
-	?>
+	<?php if(isset($_zp_zenpage) && !($_zp_zenpage->news_on_index = getOption("zenpage_zp_index_news")) OR !function_exists("printNewsPageListWithNav")) { ?>
 	<?php printGalleryDesc(); ?>
 	<?php printPageListWithNav("« ".gettext("prev"), gettext("next")." »"); ?>
 			<div id="albums">
 				<?php while (next_album()): ?>
 					<div class="album">
 							<div class="thumb">
-							<a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php echo gettext('View album:'); ?> <?php printBareAlbumTitle();?>"><?php printCustomAlbumThumbImage(getBareAlbumTitle(), NULL, 95, 95, 95, 95); ?></a>
+							<a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php echo gettext('View album:'); ?> <?php echo getBareAlbumTitle();?>"><?php printCustomAlbumThumbImage(getBareAlbumTitle(), NULL, 95, 95, 95, 95); ?></a>
 							 </div>
 								<div class="albumdesc">
-									<h3><a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php echo gettext('View album:'); ?> <?php printBareAlbumTitle();?>"><?php printAlbumTitle(); ?></a></h3>
+									<h3><a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php echo gettext('View album:'); ?> <?php echo getBareAlbumTitle();?>"><?php printAlbumTitle(); ?></a></h3>
 									<?php printAlbumDate(""); ?>
 									<div><?php echo shortenContent(getAlbumDesc(), 45,'...'); ?></div>
 								</div>
@@ -54,34 +52,33 @@ if (!defined('WEBPATH')) die();
 		<br style="clear: both" />
 		<?php printPageListWithNav("« ".gettext("prev"), gettext("next")." »"); ?>
 
-	<?php
-} else { // news article loop
-	printNewsPageListWithNav(gettext('next »'), gettext('« prev'),true,'pagelist',true);
-	echo "<hr />";
-	while (next_news()): ;?>
-	 <div class="newsarticle">
-			<h3><?php printNewsTitleLink(); ?><?php echo " <span class='newstype'>[".getNewsType()."]</span>"; ?></h3>
-					<div class="newsarticlecredit"><span class="newsarticlecredit-left"><?php printNewsDate();?> | <?php echo gettext("Comments:"); ?> <?php echo getCommentCount(); ?></span>
-	<?php
-	if(is_GalleryNewsType()) {
-		if(!is_NewsType("album")) {
-			echo " | ".gettext("Album:")."<a href='".getNewsAlbumURL()."' title='".getBareNewsAlbumTitle()."'> ".getNewsAlbumTitle()."</a>";
-		} else {
-			echo "<br />";
-		}
+	<?php } else { // news article loop
+printNewsPageListWithNav(gettext('next »'), gettext('« prev'),true,'pagelist',true);
+echo "<hr />";
+while (next_news()): ;?>
+ <div class="newsarticle">
+		<h3><?php printNewsTitleLink(); ?><?php echo " <span class='newstype'>[".getNewsType()."]</span>"; ?></h3>
+				<div class="newsarticlecredit"><span class="newsarticlecredit-left"><?php printNewsDate();?> | <?php echo gettext("Comments:"); ?> <?php echo getCommentCount(); ?></span>
+<?php
+if(is_GalleryNewsType()) {
+	if(!is_NewsType("album")) {
+		echo " | ".gettext("Album:")."<a href='".getNewsAlbumURL()."' title='".getBareNewsAlbumTitle()."'> ".getNewsAlbumTitle()."</a>";
 	} else {
-		printNewsCategories(", ",gettext("Categories: "),"newscategories");
-
+		echo "<br />";
 	}
-	?>
-	</div>
-			<?php printNewsContent(); ?>
-			<?php printCodeblock(1); ?>
-			<?php printTags('links', gettext('<strong>Tags:</strong>').' ', 'taglist', ', '); ?>
-			</div>
-	<?php
-		endwhile;
-		printNewsPageListWithNav(gettext('next »'), gettext('« prev'),true,'pagelist',true);
+} else {
+	printNewsCategories(", ",gettext("Categories: "),"newscategories");
+
+}
+?>
+</div>
+		<?php printNewsContent(); ?>
+		<?php printCodeblock(1); ?>
+		<?php printTags('links', gettext('<strong>Tags:</strong>').' ', 'taglist', ', '); ?>
+		</div>
+<?php
+	endwhile;
+	printNewsPageListWithNav(gettext('next »'), gettext('« prev'),true,'pagelist',true);
 } ?>
 
 </div><!-- content left-->

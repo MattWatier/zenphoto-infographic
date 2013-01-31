@@ -1,8 +1,8 @@
 <?php
 
-// force UTF-8 
+// force UTF-8 Ø
 
-if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'light');
+if (!defined('WEBPATH')) die();
 ?>
 <!DOCTYPE html>
 <html>

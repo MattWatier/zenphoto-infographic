@@ -13,7 +13,7 @@ if(function_exists('printCustomMenu') && ($menu = getOption('effervescence_menu'
 	</div>
 	<?php
 } else {	//	"standard zenpage sidebar menus
-	if (getOption('zp_plugin_zenpage')) {
+	if(function_exists("printAllNewsCategories")) {
 		if (getNumNews(true)) {
 			?>
 			<div class="menu">
@@ -37,7 +37,7 @@ if(function_exists('printCustomMenu') && ($menu = getOption('effervescence_menu'
 			?>
 			<h3><?php echo gettext("Gallery"); ?></h3>
 			<ul>
-			<li><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Visit the image gallery'); ?>"><?php printGalleryTitle();?></a></li>
+			<li><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Visit the image gallery'); ?>"><?php echo getGalleryTitle();?></a></li>
 			</ul>
 			<?php
 		}
@@ -45,7 +45,7 @@ if(function_exists('printCustomMenu') && ($menu = getOption('effervescence_menu'
 		<div class="menu_rule"></div>
 	</div>
 	<?php
-	if (getOption('zp_plugin_zenpage')) {
+	if(function_exists("printPageMenu")) {
 		if (getNumPages(true)) {
 			?>
 			<div class="menu">

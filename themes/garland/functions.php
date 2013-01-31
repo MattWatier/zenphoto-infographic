@@ -2,63 +2,16 @@
 
 // force UTF-8 Ø
 require_once (SERVERPATH.'/'.ZENFOLDER.'/'.PLUGIN_FOLDER.'/image_album_statistics.php');
-zp_register_filter('themeSwitcher_head', 'switcher_head');
-zp_register_filter('themeSwitcher_Controllink', 'switcher_controllink');
-
-$personalities = array(gettext('Image page') => 'image_page', gettext('Colorbox') => 'colorbox', gettext('Image gallery') => 'image_gallery');
-
-function switcher_head($ignore) {
-	global $personalities;
-	$personality = getOption('themeSwitcher_garland_personality');
-	if (isset($_GET['themePersonality'])) {
-		$new = $_GET['themePersonality'];
-		if (in_array($new, $personalities)) {
-			setOption('themeSwitcher_garland_personality', $new);
-			$personality = $new;
-		}
-	}
-	if ($personality) {
-		setOption('garland_personality', $personality, false);
-	}
-	?>
-	<script type="text/javascript">
-		// <!-- <![CDATA[
-		function switchPersonality() {
-			personality = $('#themePersonality').val();
-			window.location = '?themePersonality='+personality;
-		}
-		// ]]> -->
-	</script>
-	<?php
-	return $ignore;
-}
-
-function switcher_controllink($html) {
-	global $personalities, $_zp_gallery_page;
-	$personality =getOption('themeSwitcher_garland_personality');
-	if (!$personality) {
-		$personality = getOption('garland_personality');
-	}
-	?>
-	<span id="themeSwitcher_garland">
-		<span title="<?php echo gettext("Garland image display handling."); ?>">
-			<?php echo gettext('Personality'); ?>
-			<select name="themePersonality" id="themePersonality" onchange="switchPersonality();">
-				<?php generateListFromArray(array($personality), $personalities, false, true); ?>
-			</select>
-		</span>
-	</span>
-	<?php
-	return $html;
-}
 
 function gMapOptionsImage($map) {
+	$map->setWidth(535);
 }
 function gMapOptionsAlbum($map) {
 	global $points;
 	foreach ($points as $coord) {
 		addGeoCoord($map, $coord);
 	}
+	$map->setWidth(535);
 }
 
 function footer() {
@@ -90,12 +43,6 @@ function footer() {
 		<?php if ($_zp_gallery_page != 'password.php' && $_zp_gallery_page != 'archive.php') { printCustomPageURL(gettext('Archive View'), 'archive', '', $prev, ''); $prev = ' | '; }?>
 		<?php	if ($_zp_gallery_page!='contact.php' && getOption('zp_plugin_contact_form') && ($_zp_gallery_page != 'password.php' || $_zp_gallery->isUnprotectedPage('contact'))) { printCustomPageURL(gettext('Contact us'), 'contact', '', $prev, '');$prev = ' | '; }	?>
 		<?php if ($_zp_gallery_page!='register.php' && !zp_loggedin() && ($_zp_gallery_page != 'password.php' || $_zp_gallery->isUnprotectedPage('register'))) { @call_user_func('printCustomPageURL',gettext('Register for this site'), 'register', '', $prev, '');	$prev = ' | '; }?>
-		<?php
-		if (function_exists('printFavoritesLink') && $_zp_gallery_page != 'password.php' && $_zp_gallery_page != 'favorites.php') {
-			?> | <?php
-			printFavoritesLink();
-		}
-		?>
 		<?php	if (!in_array($_zp_gallery_page, $exclude_login)) @call_user_func('printUserLogin_out', $prev); ?>
 		<br />
 		<?php @call_user_func('mobileTheme::controlLink'); ?>

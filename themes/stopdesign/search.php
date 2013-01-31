@@ -6,10 +6,10 @@ if (!defined('WEBPATH')) die();
 require_once('normalizer.php');
  ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<?php zp_apply_filter('theme_head'); ?>
-	<title><?php printBareGalleryTitle(); ?> | <?php echo gettext("Search"); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
+	<title><?php echo getBareGalleryTitle(); ?> | <?php echo gettext("Search"); if ($_zp_page>1) echo "[$_zp_page]"; ?></title>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo LOCAL_CHARSET; ?>" />
 	<link rel="stylesheet" type="text/css" media="screen, projection" href="<?php echo $_zp_themeroot ?>/css/master.css" />
 	<?php printRSSHeaderLink('Gallery',gettext('Gallery RSS')); ?>
@@ -24,15 +24,15 @@ require_once('normalizer.php');
 		$_zp_current_search->clearSearchWords();
 	}
 	?>
-	<?php printGalleryTitle(); ?>
+	<?php echo getGalleryTitle(); ?>
 	<?php if (getOption('Allow_search')) {  printSearchForm(); } ?>
 
 	<div id="content">
 
 		<div class="galleryinfo">
-			<h1>
-			<?php printSearchBreadcrumb(NULL, NULL, ''); ?>
-			</h1>
+		<?php
+			echo "<h1><em>". gettext('Search'). "</em></h1>";
+		?>
 		</div>
 		<?php
 		$results = getNumAlbums() + getNumImages();
@@ -47,8 +47,8 @@ require_once('normalizer.php');
 				}
 			?>
 				<li class="gal">
-					<a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php printf(gettext('View album: %s'), html_encode(getAnnotatedAlbumTitle()));?>" class="img"><?php printCustomAlbumThumbImage(getAnnotatedAlbumTitle(), null, 210, null, 210, 59); ?></a>
-					<h3><a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php printf(gettext('View album: %s'), html_encode(getAnnotatedAlbumTitle()));?>"><?php printAlbumTitle(); ?></a></h3>
+					<a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php printf(gettext('View album: %s'), getAnnotatedAlbumTitle());?>" class="img"><?php printCustomAlbumThumbImage(getAnnotatedAlbumTitle(), null, 210, null, 210, 59); ?></a>
+					<h3><a href="<?php echo html_encode(getAlbumLinkURL());?>" title="<?php printf(gettext('View album: %s'), getAnnotatedAlbumTitle());?>"><?php printAlbumTitle(); ?></a></h3>
 					<p>
 						<?php
 						if ($anumber > 0 || $inumber > 0) {
@@ -113,7 +113,7 @@ require_once('normalizer.php');
 				$cw = 67;
 			}
 			echo "\n<li class=\"thumb\"><span><em style=\"background-image:url(" . html_encode($_zp_current_image->getCustomImage(NULL, $iw, $ih, $cw, $ch, NULL, NULL, true)) . '); "><a href="' .
-			html_encode(getImageLinkURL()) . '" title="' . html_encode(getAnnotatedImageTitle()) . '" style="background:#fff;">"'.
+			html_encode(getImageLinkURL()) . '" title="' . getAnnotatedImageTitle() . '" style="background:#fff;">"'.
 			getImageTitle().'"</a></em></span></li>';
 		}
 			if (!is_null($lastImage)  && $lastImage < getNumImages()) {
@@ -163,7 +163,7 @@ require_once('normalizer.php');
 	<p id="path">
 		<?php printHomeLink('', ' > '); ?>
 		<a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>">
-		<?php printGalleryTitle();?></a> &gt;
+		<?php echo getGalleryTitle();?></a> &gt;
 		<?php
 		echo "<em>".gettext('Search')."</em>";
 		?>
@@ -171,12 +171,7 @@ require_once('normalizer.php');
 
 	<div id="footer">
 		<hr />
-		<?php
-		if (function_exists('printFavoritesLink')) {
-			printFavoritesLink();
-		}
-		if (function_exists('printUserLogin_out')) { printUserLogin_out(""); }
-		?>
+		<?php if (function_exists('printUserLogin_out')) { printUserLogin_out(""); } ?>
 		<p>
 		<?php printZenphotoLink(); ?>
 		</p>
