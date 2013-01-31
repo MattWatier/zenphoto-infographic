@@ -25,19 +25,21 @@ include_once "masonFunctions.php";
 <body>
 <?php zp_apply_filter('theme_body_open'); ?>
 <?php include('_siteHeaderNav.php' ); ?>	
-<?php include('_canvas.php' ); ?>
 
-<div id="main" class="row">
-	<div id="breadcrumb">
-		<h4><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?>
-		</h4>
+
+<div id="main" class="row" style="padding-top:50px;">
+	<div id="breadcrumb" class="column six">
+		<h1><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
+		<p><?php printAlbumDesc(true); ?></p>
 	</div>
-<div id="gallerytitle" class="row">
-	<h2><?php printAlbumTitle(true);?></h2>
-</div>
+	<div id="dataholder" class="column ten">
+		<h4>Gallery Filter</h4>
 
+	</div>
+
+</div>
 <div class="row">
-	<p><?php printAlbumDesc(true); ?></p>
+	
 	<?php
 	$gallery = new MyGallery(getBareAlbumTitle());
 	$gallery_item = "<div id='album' class='rows'>";
@@ -112,19 +114,112 @@ include_once "masonFunctions.php";
 		//end of gallery mechanic and logic
 		$gallery_item .= "</div><!-- End of Gallery -->";
 		//echo $gallery_item;  
+		 $filters = $gallery->get_filters();
+		 $D3_BarChart_Array = flattenArray($filters);
+		 
+		 function flattenArray($array){
+			  $temparray = array();
+			  foreach ($array as $key => $value) {
+			      array_push( $temparray , $value);
+			     }
+			   $array = $temparray;  
+			  return $array;
+			}
 	?>
 <div id="filter-bar">
+	<script src="<?php echo $_zp_themeroot ?>/javascripts/d3.v3.min.js"></script>
+	<script>
+	
+	var dset = <?php echo json_encode($D3_BarChart_Array); ?>;
+	drawBarChart("value",dset,"#dataholder");	
+	function drawBarChart(chartID, dataSet, selectString){
+      // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
+      // dataSet => Input Data for the chart, itself.
+      // selectString => String that allows you to pass in
+      // a D3.selectAll() string.
+
+      function domainArray(a , type) {
+        var data =[];// ["Photos","Canvas","Page","Screen"];
+        for (var i = 0; i < a.length; i++) {
+          data.push( a[i][type] );
+         
+        }
+        console.log(data);
+        return unique(data);
+      }
+
+
+  var  barChart ={ w: 788, h :355 ,m:20  };
+  barChart.height =barChart.h - (2 * barChart.m);
+  barChart.width = barChart.w - (2 * barChart.m);
+  var color = d3.scale.category20().domain( d3.range(dataSet.length) ); 
+  var x = d3.scale.ordinal().domain( d3.range(dataSet.length) ).rangeRoundBands([0,barChart.width],.05); 
+  var y = d3.scale.linear().domain( [0,d3.max(dataSet, function(d) { return d.count}) ]).range([0, barChart.height],0);
+
+
+
+var bchart_svg = d3.select(selectString).append("svg")
+   
+    .attr("class", function(){return "bar"+chartID;})
+    .attr("width", barChart.w)
+    .attr("height", barChart.h)
+    .append("g")
+    .attr("transform","translate(" + barChart.m + "," + barChart.m + ")");
+
+
+var bchart = bchart_svg.selectAll(".bar")
+    .data(dataSet)
+    .enter().append("g")
+    .attr("class", "bar");
+
+  bchart.append("svg:a")
+    .attr("xlink:href", "#") 
+    .attr("data-filter", function(d){return "."+d.classtype;})
+    .append("rect")
+    .attr("class", function(d){return d.type})
+    .attr("height", function(d){return y( d.count ) })
+    .attr("width", x.rangeBand())
+    .attr("x", function(d,i){ return x( i ) })
+    .attr("fill", function(d,i){return color( i )})
+    .attr("y", function(d){return   barChart.height  - y( d.count ); });
+  bchart.append("text")
+    .attr("class", "count")
+    .attr("x", function(d,i){ return x( i ) + 10 })
+    .attr("width", x.rangeBand())
+    .attr("fill", "#ffffff")
+    .attr("y", function(d){return   barChart.height  - y( d.count ) + 55; })
+    .style("font-size","40px")
+    .style("font-wieght", 900)
+  .text(function(d){ return d.count; });
+  bchart.append("text")
+    .attr("class", "label")
+    .attr("x", function(d,i){ return x( i ) + 10 })
+    .attr("width", x.rangeBand())
+    .attr("fill", "#ffffff")
+    .attr("y", function(d){return   barChart.height  - y( d.count ) + 20; })
+    .style("fontsize","10px")
+    .text(function(d){ return d.type; });
+
+
+}
+
+		
+		
+		
+		
+	</script>
+	
 <div class="row">
 <strong>Gallery Filter</strong>
 <ul id="filters" class="button-group radius">
 <li><a href="#" class='button radius small' data-filter="*">All</a></li>
-<?php $filters = $gallery->get_filters();
+<?php
 $html ="";
 foreach ($filters as $key => $value) {
 	$html .= "<li><a class='button radius small' data-filter='.";
-	$html .= str_replace(" ", "-", $value["value"]);
+	$html .= str_replace(" ", "-", $value["type"]);
 	$html .= "' href='#'>";
-	$html .= $value["value"];
+	$html .= $value["type"];
 	$html .= "</a></li>";
 }
 echo $html;

@@ -67,7 +67,8 @@ class MyGallery{
 			if( $pos != FALSE ){
 				if( $this->color[$value] == NULL) {	
 					 $this->color[$value] = array();
-					 $this->color[$value]["value"] = $value;
+					 $this->color[$value]["type"] = $value;
+					 $this->color[$value]["classtype"] = str_replace(" ", "-", $value);
 					 $this->color[$value]["count"] = 1;
 				}
 				else
@@ -78,7 +79,8 @@ class MyGallery{
 			}else{
 				if( $this->filters[$value] == NULL) {	
 					 $this->filters[$value] = array();
-					 $this->filters[$value]["value"] = $value;
+					 $this->filters[$value]["type"] = $value;
+					 $this->filters[$value]["classtype"] = str_replace(" ", "-", $value);
 					 $this->filters[$value]["count"] = 1;
 				}
 				else

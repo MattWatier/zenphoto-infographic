@@ -31,6 +31,13 @@
 	  
 	  return false;
 	});
+		$('#dataholder a').click(function(){
+	  var selector = $(this).attr('data-filter');
+	  $container.isotope({ filter: selector });
+	  
+	  return false;
+	});
+	
 	
 	$("img.lazy").lazyload({ 
     	effect : "fadeIn"
