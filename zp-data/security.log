@@ -7,3 +7,8 @@ date	requestor's IP	type	user ID	user name	outcome	authority	additional informat
 2013-01-16 18:02:22		Authorization cookie check			Failed	
 2013-01-16 18:02:22		Admin access			Failed		/zp-core/admin-users.php?saved&show-admin&page=users
 2013-01-31 04:32:06		Authorization cookie check			Failed	
+2013-01-31 14:41:08	127.0.0.1	Install			Success	zp_admin	version 1.4.4[4d20f7093e]
+2013-01-31 14:43:47	127.0.0.1	Request add user			Success	zp_admin	admin
+2013-01-31 14:43:47	127.0.0.1	Admin access			Failed		/zenphoto-infographic/zp-core/admin-users.php?mismatch=password&show-admin&page=users
+2013-01-31 14:44:38	127.0.0.1	Request update user	admin	Matt Watier	Success	zp_admin	admin
+2013-01-31 14:44:38	127.0.0.1	Admin access			Failed		/zenphoto-infographic/zp-core/admin-users.php?saved&show-admin&page=users&ticket=f85cbdec92a2b24f941c309e798e91a458f1da097b45a4d38a426bc4ee9c&user=admin

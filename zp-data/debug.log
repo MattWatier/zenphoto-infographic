@@ -59714,3 +59714,6 @@
 {7031:Thu, 31 Jan 2013 04:31:13 GMT}
   NOTICE: Use of undefined constant HTTP_HOST - assumed 'HTTP_HOST' in /Users/matt/Sites/COM/mattwatier/fragments/themes/masonary_infographic/album.php on line 146
   include called from index.php [93]
+{2944:Thu, 31 Jan 2013 14:43:47 GMT}
+  NOTICE: Undefined index: pass_r0 in C:\wamp\www\zenphoto-infographic\zp-core\admin-users.php on line 143
+
