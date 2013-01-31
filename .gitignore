@@ -22,6 +22,7 @@ local.properties
 /plugins
 /uploaded
 /zip-core
+/zp-data
 
 # External tool builders
 .externalToolBuilders/

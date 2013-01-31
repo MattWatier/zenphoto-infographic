@@ -1,8 +1,8 @@
 <?php
 
-// force UTF-8 Ø
+// force UTF-8 
 
-if (!defined('WEBPATH')) die();
+if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'light');
 ?>
 <!DOCTYPE html>
 <html>
@@ -203,15 +203,17 @@ function flattenArray($array){
 <script src="<?php echo $_zp_themeroot ?>/javascripts/d3.v3.min.js"></script>
 
 <script>
-<? 
+<?php 
 
 foreach( array_unique($D3_Master_Type_Array) as $value ){
-  $flat_array= array();
-  foreach ($D3_Grouped_Array[$value] as $A_value) {
+   $flat_array= array();
+    foreach ($D3_Grouped_Array[$value] as $A_value) {
       array_push($flat_array, $A_value);
-  }
+     } ;
   echo 'var '.$value.'_d3_data = '.json_encode( $flat_array ).';';
   echo 'drawDonutChart("'.$value.'",'.$value.'_d3_data,"#dataholder_'.$value.'");';
+
+
 }
 $D3_Master_Type_Array = flattenArray( array_unique($D3_Master_Type_Array) );
 $D3_Grouped_Array = flattenArray( $D3_Grouped_Array  );
@@ -219,8 +221,9 @@ $D3_Master_Array = flattenArray( $D3_Master_Array );
 $D3_Master_Array2 = flattenArray( $D3_Master_Array2 );
 $D3_Grouped_TypeArray = simpleArray($D3_Grouped_TypeArray);
 $D3_BarChart_Array = flattenArray($D3_BarChart_Array);
-?>
 
+
+?>
 function drawBarChart(chartID, dataSet, selectString){
       // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
@@ -287,8 +290,9 @@ var bchart = bchart_svg.selectAll(".bar")
     .attr("y", function(d){return   barChart.height  - y( d.count ) + 20; })
     .style("fontsize","10px")
     .text(function(d){ return d.type; });
-}
 
+
+}
 var dset = <?php echo json_encode($D3_BarChart_Array); ?>;
 drawBarChart("value",dset,"#bar_holder");
 function drawDonutChart(chartID, dataSet, selectString) {
@@ -340,7 +344,7 @@ var _arc = _svg.selectAll("g.slice")
 var margin = {top: 80, right: 250, bottom: 70, left: 20},
     width = 1260 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
-var d3_data = <? echo json_encode($D3_Master_Array2); ?>;
+var d3_data = <?php echo json_encode($D3_Master_Array2); ?>;
 var y_domain = domainArray(d3_data, "type");
 var parentArray = domainArray(d3_data, "type");
 

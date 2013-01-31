@@ -2,7 +2,7 @@
 
 // force UTF-8 Ø
 
-if (!defined('WEBPATH')) die();
+if (!defined('WEBPATH')) die(); $themeResult = getTheme($zenCSS, $themeColor, 'light');
 include_once "masonFunctions.php";
 ?>
 <!DOCTYPE html>
@@ -25,25 +25,23 @@ include_once "masonFunctions.php";
 <body>
 <?php zp_apply_filter('theme_body_open'); ?>
 <?php include('_siteHeaderNav.php' ); ?>	
+<?php include('_canvas.php' ); ?>
 
-
-<div id="main" class="row" style="padding-top:50px;">
-	<div id="breadcrumb" class="column six">
-		<h1><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
-		<p><?php printAlbumDesc(true); ?></p>
+<div id="main" class="row">
+	<div id="breadcrumb">
+		<h4><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?>
+		</h4>
 	</div>
-	<div id="dataholder" class="column ten">
-		<h4>Gallery Filter</h4>
-
-	</div>
-
+<div id="gallerytitle" class="row">
+	<h2><?php printAlbumTitle(true);?></h2>
 </div>
+
 <div class="row">
-	
+	<p><?php printAlbumDesc(true); ?></p>
 	<?php
 	$gallery = new MyGallery(getBareAlbumTitle());
 	$gallery_item = "<div id='album' class='rows'>";
-	$checked = FALSE;
+	$checked = false;
 		while (next_album( $all = true)):
 		$crap = getAlbumThumb( getBareAlbumTitle());
 		$current_alblum = $_zp_current_album;
@@ -69,7 +67,7 @@ include_once "masonFunctions.php";
 			
 			//echo "tags";
 			$tags= getTags();
-			
+			array_push($array, getBareAlbumTitle());
 			$space_separated_array = implode("_", $tags);
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);
 			$space_separated_array = str_replace("_", " ", $space_separated_array);
@@ -97,7 +95,7 @@ include_once "masonFunctions.php";
 			
 			//echo "tags";
 			$tags= getTags();
-			
+			array_push($array, getBareAlbumTitle());
 			$gallery->add_to_filter($tags);
 			$space_separated_array = implode("_", $tags);
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);
@@ -126,7 +124,7 @@ foreach ($filters as $key => $value) {
 	$html .= "<li><a class='button radius small' data-filter='.";
 	$html .= str_replace(" ", "-", $value["value"]);
 	$html .= "' href='#'>";
-	$html .=  $value["value"];
+	$html .= $value["value"];
 	$html .= "</a></li>";
 }
 echo $html;
@@ -134,7 +132,7 @@ echo $html;
  ?>
 </ul>
 </div>
-<? echo $gallery_item; ?>
+<?php echo $gallery_item; ?>
 </div>
 
 		
