@@ -37,7 +37,7 @@
 	  
 	  return false;
 	});
-		$('#dataholder a').click(function(){
+		$('#filterHolder a').click(function(){
 	  var selector = $(this).attr('data-filter');
 	  $container.isotope({ filter: selector });
 	  

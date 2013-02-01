@@ -169,3 +169,6 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+/themes/masonary_infographic/_notes
+/zp-core

@@ -23,17 +23,21 @@ include_once "masonFunctions.php";
 	</script>
 </head>
 <body>
+	<style type="text/css">
+		 body > .row { padding-left: 250px; } 
+		 #filterHolder{ position: fixed; width: 250px; top:50px; left: 0; }
+	</style>
 <?php zp_apply_filter('theme_body_open'); ?>
 <?php include('_siteHeaderNav.php' ); ?>	
 
-
+<div id="filterHolder"></div>
 <div id="main" class="row" style="padding-top:50px;">
-	<div id="breadcrumb" class="column five">
-		<h1 style="font-family: 'Sansationlight', "trebuchet MS", Arial, sans-serif;  font-weight: 900;  letter-spacing: 1px;  font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
+	<div id="breadcrumb" class="column eight">
+		<h1 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; letter-spacing: 1px; font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
 		<p><?php printAlbumDesc(true); ?></p>
 	</div>
-	<div id="dataholder" class="column eleven">
-		<h4>Gallery Filter</h4>
+	<div id="dataholder" class="column eight">
+		<h4 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; " >Gallery Colors</h4>
 
 	</div>
 
@@ -126,12 +130,19 @@ include_once "masonFunctions.php";
 			  return $array;
 			}
 	?>
-<div id="filter-bar">
+
+
+<?php echo $gallery_item; ?>		
+
+
+</div>
+<hr class="space" />
+<div id="filter-bar" class="row">
 	<script src="<?php echo $_zp_themeroot ?>/javascripts/d3.v3.min.js"></script>
 	<script>
 	
 	var dset = <?php echo json_encode($D3_BarChart_Array); ?>;
-	drawBarChart("value",dset,"#dataholder");	
+	drawBarChart("value",dset,"#filterHolder");	
 	function drawBarChart(chartID, dataSet, selectString){
       // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
@@ -149,13 +160,13 @@ include_once "masonFunctions.php";
       }
 
 
-  var  barChart ={ w: 860, h :355 ,m:20  };
+  var  barChart ={ w: 250, h :600 ,m:20  };
   barChart.height =barChart.h - (2 * barChart.m);
   barChart.width = barChart.w - (2 * barChart.m);
   var color = d3.scale.category20().domain( d3.range(dataSet.length) ); 
-  var x = d3.scale.ordinal().domain( d3.range(dataSet.length) ).rangeRoundBands([0,barChart.width],.05); 
-  var y = d3.scale.linear().domain( [0,d3.max(dataSet, function(d) { return d.count}) ]).range([0, (barChart.height- (barChart.m * 2)) ],0);
-
+  var y = d3.scale.ordinal().domain( d3.range(dataSet.length) ).rangeRoundBands([0,barChart.height],.05); 
+  var x = d3.scale.linear().domain( [0,d3.max(dataSet, function(d) { return d.count}) ]).range([0, (barChart.width- (barChart.m * 2)) ],0);
+  
 
 
 var bchart_svg = d3.select(selectString).append("svg")
@@ -170,37 +181,39 @@ var bchart_svg = d3.select(selectString).append("svg")
 var bchart = bchart_svg.selectAll(".bar")
     .data(dataSet)
     .enter().append("g")
-    .attr("class", "bar");
-
-  bchart.append("svg:a")
-    .attr("xlink:href", "#") 
-    .attr("data-filter", function(d){return "."+d.classtype;})
-    .append("rect")
+    .attr("class", "bar")
+    .attr("transform",function(d,i){return "translate(0," +y(i)+")" } );
+ bchart.append("rect")  
     .attr("class", function(d){return d.type})
-    .attr("height", function(d){return y( d.count ) })
-    .attr("width", x.rangeBand())
-    .attr("x", function(d,i){ return x( i ) })
+    .attr("height", y.rangeBand() )
+    .attr("width", function(d){return x( d.count ) })
+    .attr("y", "0")
     .attr("fill", function(d,i){return color( i )})
-    .attr("y", function(d){return   barChart.height  - y( d.count ); });
+    .attr("x", "0");
   bchart.append("text")
     .attr("class", "count")
-    .attr("x", function(d,i){ return x( i ) + 4 })
-    .attr("width", x.rangeBand())
-    .attr("fill", "#ffffff")
-    .attr("y", function(d){return   barChart.height  - y( d.count ) + 24; })
+    .attr("y", "18")
+    .attr("x", function(d){return  x( d.count ) + 4; })
+    .attr("fill", "#888888")
     .style("font-size","20px")
     .style("font-wieght", 900)
   .text(function(d){ return d.count; });
   bchart.append("text")
-    .attr("class", "label")
-    .attr("x", function(d,i){ return x( i ) + 4 })
-    .attr("width", x.rangeBand())
+    .attr("class", "datalabel")
+    .attr("y", "28")
     .attr("fill", "#888888")
-    .attr("y", function(d){return   barChart.height  - y( d.count ) - 4; })
-    .style("fontsize","8px")
-    .attr("transform",function(d,i){return "rotate(-60 "+( x( i ) + 4)+" "+( barChart.height  - y( d.count ) - 4)+")" ;})
+    .attr("x", function(d){return   x( d.count ) + 6; })
+    .style("font-size","9px")
     .text(function(d){ return d.type; });
-
+  bchart.append("svg:a")
+    .attr("xlink:href", "#") 
+    .attr("data-filter", function(d){return "."+d.classtype;})
+    .append("rect")
+    .attr("height", y.rangeBand() )
+    .attr("width", barChart.width )
+    .attr("y", "0")
+    .attr("opacity", "0")
+    .attr("x", "0");
 
 }
 
@@ -210,39 +223,15 @@ var bchart = bchart_svg.selectAll(".bar")
 		
 	</script>
 	
-<div class="row">
-<strong>Gallery Filter</strong>
-<ul id="filters" class="button-group radius">
-<li><a href="#" class='button radius small' data-filter="*">All</a></li>
-<?php
-$html ="";
-foreach ($filters as $key => $value) {
-	$html .= "<li><a class='button radius small' data-filter='.";
-	$html .= str_replace(" ", "-", $value["type"]);
-	$html .= "' href='#'>";
-	$html .= $value["type"];
-	$html .= "</a></li>";
-}
-echo $html;
-
- ?>
-</ul>
-</div>
-<?php echo $gallery_item; ?>
-</div>
-
-		
 
 
-</div><hr class="space" />
 
 <h1>Facebook Comments</h1>
 <fb:comments href="<?php echo 'http://www.'.$_SERVER[HTTP_HOST].getAlbumLinkURL(); ?>" num_posts="5" width="500"></fb:comments>
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 <!--  End of Facebook Comments-->
+</div>
 
-</div>
-</div>
 
 	
 <?php include('_endofTheme.php' ); ?>
