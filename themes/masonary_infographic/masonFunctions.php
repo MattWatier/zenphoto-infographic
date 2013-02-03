@@ -15,8 +15,8 @@ $gutter = 12;
 $column = 152;
 $padding = -10;
 $size_1x = $column+$padding;
-$size_2x = $column+$column+$gutter+$padding;
-$size_3x = $column+$column+$gutter+$column+$gutter+$padding;
+$size_2x = $column+$column+$gutter+$padding+$padding;
+$size_3x = $column+$column+$column+$gutter+$gutter+$padding+$padding+$padding;
 $breakpoint_small =$column+$padding+($column/3)+$gutter;
 $breakpoint_medium = $column+$gutter+$column+$padding+($column/2)+$gutter;
 
@@ -69,7 +69,7 @@ class MyGallery{
 				if( $this->color[$value] == NULL) {	
 					 $this->color[$value] = array();
 					 $this->color[$value]["type"] = $value;
-					 $this->color[$value]["classtype"] = str_replace(" ", "-", $value);
+					 $this->color[$value]["classtype"] = str_replace("_", "", $value);
 					 $this->color[$value]["count"] = 1;
 				}
 				else
@@ -110,6 +110,9 @@ class MyGallery{
  		
  		return $this->filters;
  	}
+	public function get_colorfilters(){
+		return $this->color;
+	}
   	
 
 }

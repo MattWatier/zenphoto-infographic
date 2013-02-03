@@ -73,12 +73,12 @@ include_once "masonFunctions.php";
 			
 			//echo "tags";
 			$tags= getTags();
-			array_push($array, getBareAlbumTitle());
-			$space_separated_array = implode("_", $tags);
+			array_push($tags, getBareAlbumTitle());
+			$space_separated_array = implode("_", array_unique($tags));
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);
 			$space_separated_array = str_replace("_", " ", $space_separated_array);
-			$gallery->add_to_filter($tags);
-			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #ccc solid;width:".($W+5)."px; height:".($H+5)."px;' >";
+			$gallery->add_to_filter(array_unique($tags));
+			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #ccc solid;width:".($W+10)."px; height:".($H+10)."px;' >";
 			$image_item .= "<a href='".getCustomImageURL(800)."' title='".getBareImageTitle()."' class='fancy'>";
 			$image_item .="<img width='".$W."' height='".$H."' class='lazy' src='".$_zp_themeroot."/images/holder.gif' data-original='".getCustomSizedImageMaxSpace( $W, $H)."' /></a></div>";
 			$album_item .= $image_item;	
@@ -101,12 +101,12 @@ include_once "masonFunctions.php";
 			
 			//echo "tags";
 			$tags= getTags();
-			array_push($array, getBareAlbumTitle());
-			$gallery->add_to_filter($tags);
-			$space_separated_array = implode("_", $tags);
+			array_push($tags, getBareAlbumTitle());
+			$gallery->add_to_filter(array_unique($tags));
+			$space_separated_array = implode("_", array_unique($tags));
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);
 			$space_separated_array = str_replace("_", " ", $space_separated_array);
-			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #ccc solid; width:".($W+5)."px; height:".($H+5)."px;' >";
+			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #ccc solid; width:".($W+10)."px; height:".($H+10)."px;' >";
 			$image_item .= "<a href='".getCustomImageURL(800)."' title='".getBareImageTitle()."' class='fancy'>";
 			$image_item .="<img width='".$W."' height='".$H."' class='lazy' src='".$_zp_themeroot."/images/holder.gif' data-original='".getCustomSizedImageMaxSpace( $W, $H)."' /></a></div>";
 			
@@ -120,6 +120,8 @@ include_once "masonFunctions.php";
 		//echo $gallery_item;  
 		 $filters = $gallery->get_filters();
 		 $D3_BarChart_Array = flattenArray($filters);
+		 $colors = $gallery->get_colorfilters();
+		 $D3_Wheel_Array= flattenArray($colors);
 		 
 		 function flattenArray($array){
 			  $temparray = array();
@@ -143,8 +145,8 @@ include_once "masonFunctions.php";
 	
 	var dset = <?php echo json_encode($D3_BarChart_Array); ?>;
 	drawBarChart("value",dset,"#filterHolder");	
-	function drawBarChart(chartID, dataSet, selectString){
-      // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
+	function drawBarChart(selectData, dataSet, selectString){
+      // selectData => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
       // selectString => String that allows you to pass in
       // a D3.selectAll() string.
@@ -171,7 +173,7 @@ include_once "masonFunctions.php";
 
 var bchart_svg = d3.select(selectString).append("svg")
    
-    .attr("class", function(){return "bar"+chartID;})
+    .attr("class", function(){return "bar"+selectData;})
     .attr("width", barChart.w)
     .attr("height", barChart.h)
     .append("g")
@@ -217,7 +219,42 @@ var bchart = bchart_svg.selectAll(".bar")
 
 }
 
-		
+
+var wheel_dset  = <?php echo json_encode($D3_Wheel_Array); ?>;
+drawColorWheel( "value" , wheel_dset,"#dataholder",{w:550,h:250,m:10}  )
+function drawColorWheel( selectData , dataSet, selectString,dimensions){
+      // selectData => A unique drawing identifier that has no spaces, no "." and no "#" characters.
+      // dataSet => Input Data for the chart, itself.
+      // selectString => String that allows you to pass in
+      // a D3.selectAll() string.
+      
+  var  wheel = dimensions;
+  wheel.height =wheel.h;
+  wheel.width = wheel.w;
+  wheel.radius = Math.min(wheel.height , wheel.width)/2;
+  var color = d3.scale.ordinal();
+  	color.domain( ["_color-black","_color-white","_color-pink","_color-red","_color-orange","_color-brown","_color-yellow", "_color-green","_color-blue","_color-purple"                ]); 
+ 	color.range( ["#222222","#dfdfdf","#EF3368","#EB1313","#E75516","#5D3A18" ,"#FDE93A" ,"#5DD245","#448BD2", "#6E4ACB"                           ]);
+ var pie = d3.layout.pie().sort(null).value(function(d){return d.count});
+var arc = d3.svg.arc()
+    .outerRadius(wheel.radius - 10)
+    .innerRadius(50);
+var _svg = d3.select(selectString).append("svg")
+    .data([dataSet])
+    .attr("class", function(){return "pie"+selectData;})
+    .attr("width", wheel.width)
+    .attr("height", wheel.height)
+    .append("svg:g")
+    .attr("transform", "translate(" + (wheel.width /2) + "," + (wheel.height / 2) + ")");
+ var _arc = _svg.selectAll("g.slice")
+    .data(pie).enter().append("svg:g").attr("class","slice");
+	_arc.append("svg:a").attr("xlink:href", "#").attr("data-filter",function(d){return "."+d.data.classtype})
+	.append("svg:path")
+    .attr("fill", function(d,i){return color(d.data.type);})
+    .attr("class",function(d){return d.data.type }).attr("d", arc);   
+
+	
+}		
 		
 		
 		
