@@ -11,32 +11,21 @@ include_once "masonFunctions.php";
 	<?php zp_apply_filter('theme_head'); ?> 
     <title><?php echo getBareGalleryTitle(); ?> | <?php echo getBareAlbumTitle();?> | <?php echo getBareImageTitle();?></title>
 <meta http-equiv="content-type" content="text/html; charset=<?php echo getOption('charset'); ?>" />
-	<?php printRSSHeaderLink('Gallery',gettext('Gallery RSS')); ?>
-	<?php include('_htmlHeader.php' ); ?>
-			<script type="text/javascript">
-		// <!-- <![CDATA[
-		$(document).ready(function(){
-			$(".colorbox").colorbox({inline:true, href:"#imagemetadata"});
-			$("a.thickbox").colorbox({maxWidth:"98%", maxHeight:"98%"});
-		});
-		// ]]> -->
-	</script>
+	<?php include('_htmlHeader.php' ); ?>	
+
 </head>
-<body>
-	<style type="text/css">
-		 body > .row { padding-left: 250px; } 
-		 #filterHolder{ position: fixed; width: 250px; top:50px; left: 0; }
-	</style>
+<body id="albumbody">
+
 <?php zp_apply_filter('theme_body_open'); ?>
 <?php include('_siteHeaderNav.php' ); ?>	
 
 <div id="filterHolder"></div>
 <div id="main" class="row" style="padding-top:50px;">
-	<div id="breadcrumb" class="column eight">
+	<div id="breadcrumb" class="column ten">
 		<h1 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; letter-spacing: 1px; font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
 		<p><?php printAlbumDesc(true); ?></p>
 	</div>
-	<div id="dataholder" class="column eight">
+	<div id="dataholder" class="column six">
 		<h4 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; " >Gallery Colors</h4>
 
 	</div>
@@ -184,14 +173,28 @@ var bchart = bchart_svg.selectAll(".bar")
     .data(dataSet)
     .enter().append("g")
     .attr("class", "bar")
-    .attr("transform",function(d,i){return "translate(0," +y(i)+")" } );
+    .attr("transform",function(d,i){return "translate(0," +y(i)+")" } )
+    .on("mouseover",function(){
+    	d3.select(this).select(".count").attr("fill", "#000000");
+    	d3.select(this).select(".datalabel").attr("fill", "#000000");
+    	d3.select(this).select(".bar").attr("opacity", "1");
+
+    })
+    .on("mouseout",function(){
+    	d3.select(this).select(".count").attr("fill", "#888888");
+    	d3.select(this).select(".datalabel").attr("fill", "#888888");
+    	d3.select(this).select(".bar").attr("opacity", ".75");
+
+    });
  bchart.append("rect")  
-    .attr("class", function(d){return d.type})
+    .attr("id", function(d){return d.classtype})
+    .attr("class", "bar")
     .attr("height", y.rangeBand() )
     .attr("width", function(d){return x( d.count ) })
     .attr("y", "0")
     .attr("fill", function(d,i){return color( i )})
-    .attr("x", "0");
+    .attr("x", "0")
+    .attr("opacity", ".75");
   bchart.append("text")
     .attr("class", "count")
     .attr("y", "18")
@@ -199,7 +202,8 @@ var bchart = bchart_svg.selectAll(".bar")
     .attr("fill", "#888888")
     .style("font-size","20px")
     .style("font-wieght", 900)
-  .text(function(d){ return d.count; });
+    .style("font-family", "'SansationBold', 'trebuchet MS', Arial, sans-serif")
+  	.text(function(d){ return d.count; });
   bchart.append("text")
     .attr("class", "datalabel")
     .attr("y", "28")
@@ -221,7 +225,7 @@ var bchart = bchart_svg.selectAll(".bar")
 
 
 var wheel_dset  = <?php echo json_encode($D3_Wheel_Array); ?>;
-drawColorWheel( "value" , wheel_dset,"#dataholder",{w:550,h:250,m:10}  )
+drawColorWheel( "value" , wheel_dset,"#dataholder",{w:250,h:250,m:10}  )
 function drawColorWheel( selectData , dataSet, selectString,dimensions){
       // selectData => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
@@ -251,7 +255,12 @@ var _svg = d3.select(selectString).append("svg")
 	_arc.append("svg:a").attr("xlink:href", "#").attr("data-filter",function(d){return "."+d.data.classtype})
 	.append("svg:path")
     .attr("fill", function(d,i){return color(d.data.type);})
-    .attr("class",function(d){return d.data.type }).attr("d", arc);   
+    .attr("class",function(d){return d.data.type }).attr("d", arc)
+    .attr("stroke", "#ffffff")
+    .attr("stroke-width","1")
+    .attr("opacity","0.5")
+    .on("mouseover",function(){ d3.select(this).attr( "opacity", "1" ).attr("stroke-width","1"); })
+    .on("mouseout",function(){ d3.select(this).attr( "opacity", ".5" ).attr("stroke-width","1"); });   
 
 	
 }		
@@ -263,10 +272,7 @@ var _svg = d3.select(selectString).append("svg")
 
 
 
-<h1>Facebook Comments</h1>
-<fb:comments href="<?php echo 'http://www.'.$_SERVER[HTTP_HOST].getAlbumLinkURL(); ?>" num_posts="5" width="500"></fb:comments>
-<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-<!--  End of Facebook Comments-->
+
 </div>
 
 

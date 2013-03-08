@@ -6,6 +6,9 @@
 <?php if (function_exists('printAdminToolbox')) printAdminToolbox(); ?>
 </div>
 <hr class="space" />
+	<script src="<?php echo $_zp_themeroot ?>/javascripts/jquery.lazyload.min.js" type="text/javascript"></script>
+	<script src="<?php echo $_zp_themeroot ?>/javascripts/jquery.isotope.min.js" type="text/javascript"></script>
+	<script src="<?php echo $_zp_themeroot ?>/javascripts/fancybox/jquery.fancybox-1.3.4.pack.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
