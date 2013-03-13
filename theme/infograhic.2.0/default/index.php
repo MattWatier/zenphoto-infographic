@@ -15,7 +15,7 @@ if (!defined('WEBPATH')) die();
 	</head>
 	<body>
 		<?php zp_apply_filter('theme_body_open'); ?>
-		<div id="main">
+		<div>
 			<div id="gallerytitle">
 				<?php if (getOption('Allow_search')) {
 					printSearchForm('');

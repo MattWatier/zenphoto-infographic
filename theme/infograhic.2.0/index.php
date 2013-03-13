@@ -26,7 +26,7 @@ if (!defined('WEBPATH')) die();
      <![endif]-->
         <?php zp_apply_filter('theme_body_open'); ?>
         <?php include('_siteHeaderNav.php' ); ?>
-        <div id="main" class='row evencolumns' style="padding-top:50px;">
+        <div class='row evencolumns' style="padding-top:50px;">
             <div id="introduction" class="large-6 medium-8 small-16 column">
                 <h1 class="fontface">
                     Welcome to the Fragments of Me.

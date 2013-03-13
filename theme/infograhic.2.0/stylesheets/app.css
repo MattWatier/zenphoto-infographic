@@ -496,10 +496,14 @@ a:hover.cancel, a:active.cancel { background-position: -192px -64px; }
 
 .isotope-hidden.isotope-item { pointer-events: none; z-index: 1; }
 
+#filterHolder { float: left; margin-right: -250px; position: fixed; width: 250px; }
+
+#main { padding-left: 250px; max-width: none; padding-right: 75px; }
+
 .gallery h2 { margin-bottom: 0; padding-left: 10px; }
 .gallery .row ul.thumbnails { padding: 0px; }
 .gallery .row ul.thumbnails li.thumbnail { padding: 0; }
-.gallery .row ul.thumbnails li.thumbnail a { border: 1px solid #dddddd; padding: 3px; display: inline-block; margin: 5px auto 0; width: 36px; height: 36px; }
+.gallery .row ul.thumbnails li.thumbnail a { border: 1px solid #dddddd; padding: 3px; display: inline-block; margin: 0 auto 0; width: 36px; height: 36px; }
 .gallery .row ul.thumbnails li.thumbnail a img { padding: 0; margin: 0; }
 
 .pieScreen, .piePaper, .pieCanvas, .piePhotos { font-size: 12px; }
@@ -513,4 +517,7 @@ a:hover.cancel, a:active.cancel { background-position: -192px -64px; }
   header#siteheader nav a { font-size: .9em; }
   header#siteheader nav.siteLinks { width: 100%; -webkit-border-radius: 0px; border-radius: 0px; }
   header#siteheader nav.socialLinks { width: 100%; -webkit-border-radius: 0px; border-radius: 0px; }
-  header#siteheader nav.socialLinks > a { margin: 0 20px 2px; } }
+  header#siteheader nav.socialLinks > a { margin: 0 20px 2px; }
+  #filterHolder { float: none; width: 100%; padding-top: 50px; margin-right: 0; position: relative; padding-right: 55px; }
+  #main { padding-left: 0; max-width: none; padding-right: 75px; } }
+body #sthoverbuttons #sthoverbuttonsMain { position: relative; z-index: 1000000; width: 50px; padding: 0px 12px; }

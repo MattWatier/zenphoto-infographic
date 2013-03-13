@@ -1,4 +1,5 @@
 var windowWidth = window.innerWidth;
+var windowHeight = window.innerHeight;
 function drawBarChart(chartID, dataSet, selectString){
       // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
@@ -14,9 +15,10 @@ function drawBarChart(chartID, dataSet, selectString){
         console.log(data);
         return unique(data);
       }
-  
+  var wTemp = $(selectString).width();
+
   var dataSet = flattenArray(dataSet);
-  var  barChart ={ w: 400, h :300 ,m:10  };
+  var  barChart ={ w: wTemp, h :300 ,m:10  };
   if(windowWidth <= 600){barChart.w = windowWidth - barChart.m*2;}
   barChart.height =barChart.h - (2 * barChart.m);
   barChart.width = barChart.w - (2 * barChart.m);
@@ -75,13 +77,14 @@ function drawDonutChart(chartID, dataSet, selectString) {
       // dataSet => Input Data for the chart, itself.
       // selectString => String that allows you to pass in
       // a D3.selectAll() string.
-var  donutChart ={ w: 350, h :250, r: Math.min((350*2/3), 250) / 2};
+var wTemp = $(selectString).width()-40;
+var  donutChart ={ w: wTemp, h :250, r: Math.min((wTemp*2/3), 250) / 2};
  if(windowWidth <= 600){donutChart.w = windowWidth ; donutChart.r =  Math.min((donutChart.w*2/3), 250) / 2;}
 var color = d3.scale.category20c(); 
 var pie = d3.layout.pie().sort(null).value(function(d){return d.count});
 var arc = d3.svg.arc()
     .outerRadius(donutChart.r -10 )
-    .innerRadius(donutChart.r - 70);
+    .innerRadius(donutChart.r - (donutChart.r*2/3));
 var _svg = d3.select(selectString).append("svg")
     .data([dataSet])
     .attr("class", function(){return "pie"+chartID;})
@@ -348,8 +351,8 @@ return a; };
         return unique(data);
       }
 
-
-  var  barChart ={ w: 250, h :600 ,m:20  };
+  var wTemp = $(selectString).width();
+  var  barChart ={ w: wTemp, h :windowHeight-100 ,m:20  };
   barChart.height =barChart.h - (2 * barChart.m);
   barChart.width = barChart.w - (2 * barChart.m);
   var color = d3.scale.category20().domain( d3.range(dataSet.length) ); 

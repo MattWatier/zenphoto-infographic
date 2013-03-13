@@ -24,23 +24,25 @@ include_once "masonFunctions.php";
 <?php zp_apply_filter('theme_body_open'); ?>
 <?php include('_siteHeaderNav.php' ); ?>	
 
-<div id="filterHolder"></div>
+<div id="filterHolder" class="column large-1 small-16"></div>
 <div id="main" class="row" style="padding-top:50px;">
-	<div id="breadcrumb" class="column ten">
-		<h1 class="fontface"style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; letter-spacing: 1px; font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
-		<p><?php printAlbumDesc(true); ?></p>
-	</div>
-	<div id="dataholder" class="column six">
-		<h4 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; " >Gallery Colors</h4>
-
-	</div>
-
-</div>
+	
+	<div class="column large-16">
+		<div class="row">
+			<div id="breadcrumb" class="column large-10">
+				<h1 class="fontface"><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?> <?php printAlbumTitle(true);?></h1>
+				<p><?php printAlbumDesc(true); ?></p>
+			</div>
+			<div id="dataholder" class="column large-6">
+				<h4 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; " >Gallery Colors</h4>
+			</div>
+		</div>
+	
 <div class="row">
 	
 	<?php
 	$gallery = new MyGallery(getBareAlbumTitle());
-	$gallery_item = "<div id='album' class='rows'>";
+	$gallery_item = "<div id='album' class='row'>";
 	$checked = false;
 		while (next_album( $all = true)):
 		$crap = getAlbumThumb( getBareAlbumTitle());
@@ -138,11 +140,11 @@ include_once "masonFunctions.php";
 
 
 <?php echo $gallery_item; ?>		
-
+</div>
 
 </div>
 <hr class="space" />
-<div id="filter-bar" class="row">
+
 
 <script>
 	
@@ -193,11 +195,6 @@ include_once "masonFunctions.php";
 	});
 </script>
 	
-
-
-
-
-</div>
 
 
 	
