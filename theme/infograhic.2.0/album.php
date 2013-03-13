@@ -27,7 +27,7 @@ include_once "masonFunctions.php";
 <div id="filterHolder"></div>
 <div id="main" class="row" style="padding-top:50px;">
 	<div id="breadcrumb" class="column ten">
-		<h1 style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; letter-spacing: 1px; font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
+		<h1 class="fontface"style=" font-family: 'SansationLight', 'trebuchet MS', Arial, sans-serif; font-weight: 300; letter-spacing: 1px; font-size: 36px;"><span><?php printHomeLink('', ' | '); ?><a href="<?php echo html_encode(getGalleryIndexURL());?>" title="<?php echo gettext('Albums Index'); ?>"><?php echo getGalleryTitle();?></a> | <?php printParentBreadcrumb(); ?></span> <?php printAlbumTitle(true);?></h1>
 		<p><?php printAlbumDesc(true); ?></p>
 	</div>
 	<div id="dataholder" class="column six">

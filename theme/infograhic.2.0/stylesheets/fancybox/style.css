@@ -4,9 +4,7 @@ html, body, div, ul {
 }
 
 body {
-    color: #262626;
-	background: #f4f4f4;
-	font: normal 12px/18px Verdana, sans-serif;
+
 }
 
 #content {
@@ -49,10 +47,7 @@ a {
 }
 
 a img {
-	border: 1px solid #BBB;
-	padding: 2px;
-	margin: 10px 20px 10px 0;
-	vertical-align: top;
+
 }
 
 a img.last {
@@ -63,3 +58,4 @@ ul {
 	margin-bottom: 24px;
 	padding-left: 30px;
 }
+.fancy img{padding:0;margin:0;}

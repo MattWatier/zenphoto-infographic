@@ -27,11 +27,11 @@ if (!defined('WEBPATH')) die();
         <?php zp_apply_filter('theme_body_open'); ?>
         <?php include('_siteHeaderNav.php' ); ?>
         <div id="main" class='row evencolumns' style="padding-top:50px;">
-            <div id="introduction" class="six column">
-                <h1 style="">
+            <div id="introduction" class="large-6 medium-8 small-16 column">
+                <h1 class="fontface">
                     Welcome to the Fragments of Me.
                 </h1>
-                <div id="bar_holder"></div>
+                <div id="bar_holder"class="row"></div>
                 <p>
                     <?php printGalleryDesc(); ?>
                 </p>
@@ -45,12 +45,12 @@ if (!defined('WEBPATH')) die();
             </div><!-- End of Introduction -->
             <?php 
                   $collection = query_full_array("SELECT a.folder, i.filename, i.title, i.date, i.albumid FROM `zp_images` i LEFT JOIN `zp_albums` a ON i.albumid=a.id;");
-                  $gallery_item = '<div id="galleries" class="ten column" style=" border-left: 1px solid #cccccc; ">';
+                  $gallery_item = '<div id="galleries" class="large-10 medium-8 small-16 column" style=" border-left: 1px solid #cccccc; "><div class="row">';
                   while (next_album()):
-                    $gallery_item .= '<div class="eight column gallery '.getAnnotatedAlbumTitle().'" >';
+                    $gallery_item .= '<div class="large-8 medium-16 column gallery '.getAnnotatedAlbumTitle().'" ><div class="row">';
                     $gallery_item .= '<h2><a href="'.getAlbumLinkURL().'" title="View album '.getAnnotatedAlbumTitle().'">'.getAlbumTitle().'&raquo;</a></h2>';
-                    $gallery_item .= '<div class="d3_chart" id="dataholder_'.getAnnotatedAlbumTitle().'">&nbsp;</div>';
-                    $images = "<ul class='thumbnails column four'>";
+                    $gallery_item .= '<div class="d3_chart column small-16" id="dataholder_'.getAnnotatedAlbumTitle().'">&nbsp;</div>';
+                    $images = '<ul class="large-block-grid-1 thumbnails small-2 column small-offset-1">';
                     for ($i=1; $i<=8; $i++) {
                       $randomImage = getRandomImagesAlbum( $rootAlbum = getAnnotatedAlbumTitle(),$daily = false);
                       $images .= "<li class='thumbnail'><a class='fancy' href='".htmlspecialchars($randomImage->getCustomImage(NULL,800,NULL,NULL,NULL,NULL,NULL,false))."'>";
@@ -67,10 +67,10 @@ if (!defined('WEBPATH')) die();
                     }
                     $images .= "</ul>";
                     $gallery_item .= $images;
-                    $gallery_item .= '<p class="column thirteen">'.getAlbumCustomData().'<a href="'.getAlbumLinkURL().'">&nbsp; Explore my work on '.getAnnotatedAlbumTitle().'</a></p>'; 
-                    $gallery_item .= '</div>';
+                    $gallery_item .= '<p class="column small-13">'.getAlbumCustomData().'<a href="'.getAlbumLinkURL().'">&nbsp; Explore my work on '.getAnnotatedAlbumTitle().'</a></p>'; 
+                    $gallery_item .= '</div></div>';
                   endwhile;
-                  $gallery_item .= '<div style="clear:both;" /></div></div></div>';
+                  $gallery_item .= '</div></div></div></div>';
                   echo $gallery_item;
                   ?>
             <div class="row" id="dataholder" style="position: relative;"></div><?php 

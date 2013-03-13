@@ -1,3 +1,4 @@
+var windowWidth = window.innerWidth;
 function drawBarChart(chartID, dataSet, selectString){
       // chartID => A unique drawing identifier that has no spaces, no "." and no "#" characters.
       // dataSet => Input Data for the chart, itself.
@@ -13,9 +14,10 @@ function drawBarChart(chartID, dataSet, selectString){
         console.log(data);
         return unique(data);
       }
-
+  
   var dataSet = flattenArray(dataSet);
-  var  barChart ={ w: 442, h :300 ,m:20  };
+  var  barChart ={ w: 400, h :300 ,m:10  };
+  if(windowWidth <= 600){barChart.w = windowWidth - barChart.m*2;}
   barChart.height =barChart.h - (2 * barChart.m);
   barChart.width = barChart.w - (2 * barChart.m);
   var color = d3.scale.category20().domain( d3.range(dataSet.length) ); 
@@ -73,11 +75,12 @@ function drawDonutChart(chartID, dataSet, selectString) {
       // dataSet => Input Data for the chart, itself.
       // selectString => String that allows you to pass in
       // a D3.selectAll() string.
-var  donutChart ={ w: 441,h :234, r: Math.min(497, 234) / 2};
+var  donutChart ={ w: 350, h :250, r: Math.min((350*2/3), 250) / 2};
+ if(windowWidth <= 600){donutChart.w = windowWidth ; donutChart.r =  Math.min((donutChart.w*2/3), 250) / 2;}
 var color = d3.scale.category20c(); 
 var pie = d3.layout.pie().sort(null).value(function(d){return d.count});
 var arc = d3.svg.arc()
-    .outerRadius(donutChart.r - 10)
+    .outerRadius(donutChart.r -10 )
     .innerRadius(donutChart.r - 70);
 var _svg = d3.select(selectString).append("svg")
     .data([dataSet])
@@ -87,7 +90,7 @@ var _svg = d3.select(selectString).append("svg")
     .append("svg:a")
     .attr("xlink:href", chartID)
     .append("svg:g")
-    .attr("transform", "translate(" + donutChart.w / 4 + "," + donutChart.h / 2 + ")");
+    .attr("transform", "translate(" + donutChart.w / 3 + "," + donutChart.h / 2 + ")");
 var _arc = _svg.selectAll("g.slice")
     .data(pie).enter().append("svg:g").attr("class","slice")
   _arc.append("svg:path")
@@ -97,16 +100,16 @@ var _arc = _svg.selectAll("g.slice")
     .data(color.domain())
     .enter().append("g")
     .attr("class", "legend")
-    .attr("transform", function(d, i) { return "translate(-90," + i * 20 + ")"; });
+    .attr("transform", function(d, i) { return "translate("+( donutChart.r + 20 )+"," + (i * 20 - donutChart.r +10) + ")"; });
  legend.append("rect")
-    .attr("x", (donutChart.w/2)-18)
-    .attr("y", -(donutChart.h/2) )
+    .attr("x", -18)
+    .attr("y", -9 )
     .attr("width", 18)
     .attr("height", 18)
     .style("fill", color);
  legend.append("text")
-      .attr("x", (donutChart.w/2) + 4)
-      .attr("y", 9 - (donutChart.h/2) )
+      .attr("x", 4)
+      .attr("y", 0 )
       .attr("dy", ".35em")
       .style("text-anchor", "start")
       .text(function(d) { return d; });
@@ -121,10 +124,12 @@ function flattenArray(obj){
 }
 
 function renderBubbleGraph(dataSet){
-   console.log(dataSet.length);
-var margin = {top: 80, right: 250, bottom: 70, left: 20},
-    width = 1260 - margin.left - margin.right,
+if(windowWidth>1120){windowWidth=1120;}
+var margin = {top: 80, right: 150, bottom: 70, left: 20},
+    width = windowWidth - margin.left - margin.right-50,
     height = 500 - margin.top - margin.bottom;
+if(windowWidth<800){margin.right=120;width = windowWidth - margin.left - margin.right-50;}
+if(windowWidth<500){margin.right=80;width = windowWidth - margin.left - margin.right-50;}
 var d3_data = flattenArray(dataSet);
 var y_domain = domainArray(d3_data, "type");
 var parentArray = domainArray(d3_data, "type");
@@ -257,6 +262,7 @@ legend.append("rect")
     .attr("height", recthieght )
     .style("fill", color);
 legend.append("text")
+  .attr("class","legend")
     .attr("x", width + 19)
     .attr("y", 9)
     .attr("dy", ".35em")

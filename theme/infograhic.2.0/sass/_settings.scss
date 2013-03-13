@@ -16,8 +16,8 @@
 
 // We use these to control various global styles
 // $body-bg: #fff;
-// $body-font-color: #222;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+$body-font-color: #888;
+// $body-font-family:"Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
 // $body-font-weight: normal;
 // $body-font-style: normal;
 
@@ -50,9 +50,9 @@
 // Grid Variables
 //
 
-// $row-width: 62.5em;
-// $column-gutter: 1.875em;
-// $total-columns: 12;
+$row-width: 70em;
+$column-gutter: 1.875em;
+$total-columns: 16;
 
 //
 // Block Grid Variables
@@ -70,8 +70,8 @@
 //
 
 // We use these to control header font styles
-// $header-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-// $header-font-weight: bold;
+$header-font-family: 'Sansation',"Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+ $header-font-weight: 400;
 // $header-font-style: normal;
 // $header-font-color: #222;
 // $header-line-height: 1.4;
@@ -101,8 +101,8 @@
 // We use these to style paragraphs
 // $paragraph-font-family: inherit;
 // $paragraph-font-weight: normal;
-// $paragraph-font-size: 1em;
-// $paragraph-line-height: 1.6;
+$paragraph-font-size: emCalc(15px);
+$paragraph-line-height: 1.5;
 // $paragraph-margin-bottom: emCalc(20px);
 // $paragraph-aside-font-size: emCalc(14px);
 // $paragraph-aside-line-height: 1.35;
@@ -990,6 +990,6 @@
 
 // Transitions and breakpoint styles
 // $topbar-transition-speed: 300ms;
-// $topbar-breakpoint: emCalc(940px); // Change to 9999px for always mobile layout
+// $topbar-breakpoint: emCalc(940px);
 // $topbar-media-query: "only screen and (min-width "#{$topbar-breakpoint}")";
 
