@@ -10,16 +10,13 @@ if (!defined('WEBPATH')) die();
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
-        <?php zp_apply_filter('theme_head'); ?>
-        <title>
-            <?php echo getBareGalleryTitle(); ?>
-        </title>
-               <meta charset="utf-8">
+  <?php zp_apply_filter('theme_head'); ?> 
+    <title><?php echo getBareGalleryTitle(); ?> | <?php echo getBareAlbumTitle();?> | <?php echo getBareImageTitle();?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width">
-        <?php include('_htmlHeader.php' ); ?>
-      
-    </head>
+  <?php include('_htmlHeader.php' ); ?> 
+
+</head>
     <body>
     <!--[if lt IE 8]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
@@ -53,7 +50,7 @@ if (!defined('WEBPATH')) die();
                     $images = '<ul class="large-block-grid-1 thumbnails small-2 column small-offset-1">';
                     for ($i=1; $i<=8; $i++) {
                       $randomImage = getRandomImagesAlbum( $rootAlbum = getAnnotatedAlbumTitle(),$daily = false);
-                      $images .= "<li class='thumbnail'><a class='fancy' href='".htmlspecialchars($randomImage->getCustomImage(NULL,800,NULL,NULL,NULL,NULL,NULL,false))."'>";
+                       $images .= "<li class='thumbnail'><a class='fancybox' href='".$randomImage->getFullImage()."'>";
                       if ($randomImage->getWidth() >= $randomImage->getHeight()) {
                       $ih = 30;
                       $iw = NULL;
@@ -211,10 +208,10 @@ if (!defined('WEBPATH')) die();
 
             $imgs = $("img.lazy");
             $imgs.lazyload({ 
-            effect : "fadeIn",
-            failure_limit: Math.max($imgs.length - 1, 0)
-            });
-            });
+              effect : "fadeIn",
+              failure_limit: Math.max($imgs.length - 1, 0)
+              });
+              });
 
 
 

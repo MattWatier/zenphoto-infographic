@@ -81,7 +81,7 @@ include_once "masonFunctions.php";
 				$gallery->add_to_filter(array_unique($tags));
 			}
 			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #ccc solid;width:".($W+10)."px; height:".($H+10)."px;' >";
-			$image_item .= "<a href='".getCustomImageURL(800)."' title='".getBareImageTitle()."' class='fancy'>";
+			$image_item .= "<a href='".getCustomImageURL(800)."' title='".getBareImageTitle()."' class='fancybox'>";
 			$image_item .="<img width='".$W."' height='".$H."' class='lazy' src='".$_zp_themeroot."/images/holder.gif' data-original='".getCustomSizedImageMaxSpace( $W, $H)."' /></a></div>";
 			$album_item .= $image_item;	
 			endwhile; 
@@ -110,8 +110,8 @@ include_once "masonFunctions.php";
 			$space_separated_array = implode("_", array_unique($tags));
 			$space_separated_array = str_replace(" ", "-", $space_separated_array);
 			$space_separated_array = str_replace("_", " ", $space_separated_array);
-			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #ccc solid; width:".($W+10)."px; height:".($H+10)."px;' >";
-			$image_item .= "<a href='".getCustomImageURL(800)."' title='".getBareImageTitle()."' class='fancy'>";
+			$image_item .= "<div class='images ".getBareAlbumTitle()." ".$space_separated_array."' style='display:block;padding:5px;margin-bottom:12px; border:1px #fff solid; width:".($W+10)."px; height:".($H+10)."px;' >";
+			$image_item .= "<a href='".getCustomImageURL(800)."' title='".getBareImageTitle()."' class='fancybox'>";
 			$image_item .="<img width='".$W."' height='".$H."' class='lazy' src='".$_zp_themeroot."/images/holder.gif' data-original='".getCustomSizedImageMaxSpace( $W, $H)."' /></a></div>";
 			
 			
